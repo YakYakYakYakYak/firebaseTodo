@@ -5,57 +5,57 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
-    const [todos, setTodos] = useState([]);
-    const todoRef = firebase.firestore().collection('todos');
-    const [addData, setAddData] = useState('');
+    const [tasks, setTasks] = useState([]);
+    const taskRef = firebase.firestore().collection('tasks');
+    const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
 
     // fetch or read the data from firestore
     useEffect(() => {
-        todoRef.orderBy('createdAt', 'desc')
+        taskRef.orderBy('timeOfCreation', 'desc')
         .onSnapshot(
             querySnapshot => {
-                const todos = []
+                const tasks = []
                 querySnapshot.forEach((doc) => {
                     const {heading} = doc.data()
-                    todos.push({
+                    tasks.push({
                         id: doc.id,
                         heading,
                     })
                 })
-                setTodos(todos)
+                setTasks(tasks)
             }
         )
     }, [])
     
-    // delete todo from db
-    const deleteTodo = (todos) => {
-        todoRef
-            .doc(todos.id)
+    // delete task from db
+    const deleteTask = (tasks) => {
+        taskRef
+            .doc(tasks.id)
             .delete()
             .then(() => {
                 // alert showing successful deletion
-                alert('Deleted successfully')
+                alert('Task deleted successfully')
             })
             .catch(error => {
                 alert(error);
             })
     }
 
-    // add a todo
-    const addTodo = () => {
-        //check if there is a current todo
-        if(addData && addData.length > 0) {
+    // add a task
+    const addTask = () => {
+        //check if there is a valid user input
+        if(userInput && userInput.length > 0) {
             //get timestamp
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             const data = {
-                heading: addData,
-                createdAt: timestamp
+                heading: userInput,
+                timeOfCreation: timestamp
             };
-            todoRef
+            taskRef
                 .add(data)
                 .then(() => {
-                    setAddData('');
+                    setUserInput('');
                     // release the keyboard
                     Keyboard.dismiss();
                 })
@@ -69,19 +69,19 @@ const Home = () => {
             <View style={styles.formContainer}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Add new todo'
+                    placeholder='Add new task'
                     placeholderTextColor='#aaaaaa'
-                    onChangeText={(heading) => setAddData(heading)}
-                    value={addData}
+                    onChangeText={(heading) => setUserInput(heading)}
+                    value={userInput}
                     underlineColorAndroid='transparent'
                     autoCapitalize='none'
                 />
-                <TouchableOpacity style={styles.button} onPress={addTodo}>
+                <TouchableOpacity style={styles.button} onPress={addTask}>
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
             </View>
             <FlatList
-                data={todos}
+                data={tasks}
                 numColumns={1}
                 renderItem={({item}) => (
                     <View>
@@ -93,7 +93,7 @@ const Home = () => {
                             <FontAwesome 
                                 name='trash-o'
                                 color='red'
-                                onPress={() => deleteTodo(item)}
+                                onPress={() => deleteTask(item)}
                                 style={styles.todoIcon}
                             />
                             <View style={styles.innerContainer}>

@@ -4,13 +4,13 @@ import { firebase } from '../config'
 import { useNavigation } from '@react-navigation/native'
 
 const Detail = ({route}) => {
-        const todoRef = firebase.firestore().collection('todos');
+        const taskRef = firebase.firestore().collection('tasks');
     const [textHeading, onChangeHeadingText] = useState(route.params.item.name);
     const navigation = useNavigation();
 
     const updateTodo = () => {
         if(textHeading && textHeading.length > 0) {
-            todoRef
+            taskRef
             .doc(route.params.item.id)
             .update({
                 heading: textHeading,
@@ -27,7 +27,7 @@ const Detail = ({route}) => {
                 style={styles.textField}
                 onChangeText={onChangeHeadingText}
                 value={textHeading}
-                placeholder='Update todo'
+                placeholder='Update task'
             />
             <Pressable
             style={styles.buttonUpdate}
@@ -51,9 +51,8 @@ const styles = StyleSheet.create({
         marginBottom:10,
         padding:10,
         fontSize:15,
-        color:'#00000000',
-        backgroundColor:'#e0e0e0',
         borderRadius:5,
+        backgroundColor: 'white'
     },
     buttonUpdate: {
         marginTop:25,
