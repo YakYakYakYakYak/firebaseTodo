@@ -3,12 +3,20 @@ import React, { useState, useEffect } from 'react'
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { FAB, Portal, Provider } from 'react-native-paper';
+
+import * as Alarm from './Alarm.js';
 
 const Home = () => {
     const [tasks, setTasks] = useState([]);
     const taskRef = firebase.firestore().collection('tasks');
     const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
+
+    //Plus button
+    const [state, setState] = React.useState({ open: false });
+    const onStateChange = ({ open }) => setState({ open });
+    const { open } = state;
 
     // fetch or read the data from firestore
     useEffect(() => {
@@ -35,7 +43,7 @@ const Home = () => {
             .delete()
             .then(() => {
                 // alert showing successful deletion
-                alert('Task deleted successfully')
+                // ** TO BE IMPLEMENTED BACK AFTER TESTING. alert('Task deleted successfully')
             })
             .catch(error => {
                 alert(error);
@@ -58,6 +66,8 @@ const Home = () => {
                     setUserInput('');
                     // release the keyboard
                     Keyboard.dismiss();
+                    //set alarm
+                    Alarm.schedulePushNotification();
                 })
                 .catch((error) => {
                     alert(error);
@@ -65,6 +75,7 @@ const Home = () => {
         }
     }
     return(
+        
         <View style={{flex:1}}>
             <View style={styles.formContainer}>
                 <TextInput
@@ -105,7 +116,41 @@ const Home = () => {
                     </View>
                 )}
             />
+            {/* Plus Button */}
+            <Provider>
+                <Portal>
+                    <FAB.Group
+                    open={open}
+                    icon={open ? 'close' : 'plus'}
+                    actions={[
+                        { icon: 'plus', onPress: () => console.log('Pressed add') },
+                        {
+                        icon: 'gift',
+                        label: 'Rewards',
+                        onPress: () => console.log('Pressed rewards'),
+                        },
+                        {
+                        icon: 'reload',
+                        label: 'Recurring Task',
+                        onPress: () => console.log('Pressed Recurring Task'),
+                        },
+                        {
+                        icon: 'lead-pencil',
+                        label: 'Ad-Hoc Task',
+                        onPress: () => console.log('Pressed Ad-Hoc Task'),
+                        },
+                    ]}
+                    onStateChange={onStateChange}
+                    onPress={() => {
+                        if (open) {
+                        // do something if the speed dial is open
+                        }
+                    }}
+                    />
+                </Portal>
+            </Provider>
         </View>
+        
     )
 }
 
