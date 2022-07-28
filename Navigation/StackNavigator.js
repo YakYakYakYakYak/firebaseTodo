@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from '../Screens/Home';
 import Detail from '../Screens/Detail';
 import Reward from '../Screens/Reward';
-
+import AddTask from '../Screens/AddTask';
 const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
@@ -19,6 +19,10 @@ const MainStackNavigator = () => {
           <Stack.Screen
             name='Detail'
             component={Detail}
+            />
+          <Stack.Screen
+            name='AddTask'
+            component={AddTask}
             />
         </Stack.Navigator>
     );

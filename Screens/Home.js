@@ -13,7 +13,7 @@ const Home = () => {
     const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
 
-    //Plus button
+    //FAB multi-button button
     const [state, setState] = React.useState({ open: false });
     const onStateChange = ({ open }) => setState({ open });
     const { open } = state;
@@ -50,34 +50,34 @@ const Home = () => {
             })
     }
 
-    // add a task
-    const addTask = () => {
-        //check if there is a valid user input
-        if(userInput && userInput.length > 0) {
-            //get timestamp
-            const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-            const data = {
-                heading: userInput,
-                timeOfCreation: timestamp
-            };
-            taskRef
-                .add(data)
-                .then(() => {
-                    setUserInput('');
-                    // release the keyboard
-                    Keyboard.dismiss();
-                    //set alarm
-                    Alarm.schedulePushNotification();
-                })
-                .catch((error) => {
-                    alert(error);
-                })
-        }
-    }
+    // // add a task
+    // const addTask = () => {
+    //     //check if there is a valid user input
+    //     if(userInput && userInput.length > 0) {
+    //         //get timestamp
+    //         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    //         const data = {
+    //             heading: userInput,
+    //             timeOfCreation: timestamp
+    //         };
+    //         taskRef
+    //             .add(data)
+    //             .then(() => {
+    //                 setUserInput('');
+    //                 // release the keyboard
+    //                 Keyboard.dismiss();
+    //                 //set alarm
+    //                 Alarm.schedulePushNotification();
+    //             })
+    //             .catch((error) => {
+    //                 alert(error);
+    //             })
+    //     }
+    // }
     return(
         
-        <View style={{flex:1}}>
-            <View style={styles.formContainer}>
+        <View style={{flex:1, marginTop:50}}>
+            {/* <View style={styles.formContainer}>
                 <TextInput
                     style={styles.input}
                     placeholder='Add new task'
@@ -90,7 +90,7 @@ const Home = () => {
                 <TouchableOpacity style={styles.button} onPress={addTask}>
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
             <FlatList
                 data={tasks}
                 numColumns={1}
@@ -116,7 +116,7 @@ const Home = () => {
                     </View>
                 )}
             />
-            {/* Plus Button */}
+            {/* FAB Plus Button */}
             <Provider>
                 <Portal>
                     <FAB.Group
@@ -137,13 +137,14 @@ const Home = () => {
                         {
                         icon: 'lead-pencil',
                         label: 'Ad-Hoc Task',
-                        onPress: () => console.log('Pressed Ad-Hoc Task'),
+                        onPress: () => navigation.navigate('AddTask'),
                         },
                     ]}
                     onStateChange={onStateChange}
                     onPress={() => {
                         if (open) {
                         // do something if the speed dial is open
+                        console.log('hello')
                         }
                     }}
                     />
