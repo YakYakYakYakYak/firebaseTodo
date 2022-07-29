@@ -5,7 +5,7 @@ import { Text, View, Button, Platform } from 'react-native';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
+    shouldPlaySound: true,
     shouldSetBadge: false,
   }),
 });
@@ -38,14 +38,22 @@ export default function Alarm() {
   );
 }
 
-export async function schedulePushNotification() {
+export async function schedulePushNotification(year, month, date, Hour, Minute) {
+const trigger = new Date(Date.now());
+console.log(trigger+'before')
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setMonth
+trigger.setFullYear(year,month,date)
+trigger.setHours(Hour)
+trigger.setMinutes(Minute)
+trigger.setSeconds(0)
+console.log(trigger+'after')
   await Notifications.scheduleNotificationAsync({
     content: {
       title: "You've got mail! 📬",
-      body: 'Here is the notification body',
+      body: 'vvvv',
       data: { data: 'goes here' },
     },
-    trigger: { seconds: 2 },
+    trigger,
   });
 }
 

@@ -2,11 +2,15 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard } from 'r
 import { firebase } from '../config';
 import React, { useState } from 'react'
 import * as Alarm from './Alarm.js';
+import DateTimePickerApp, * as DateTimePicker from './DateTimePicker.js';
 
 // add a task
 export default function AdHocTask() {
     const taskRef = firebase.firestore().collection('tasks');
     const [userInput, setUserInput] = useState('');
+    
+    //to send to DateTimePicker for user to pick schedule notification date.
+    const [scheduledNotificationDate, setScheduledNotificationDate] = useState(27);
     
     // add a task
     const addTask = () => {
@@ -25,7 +29,10 @@ export default function AdHocTask() {
                     // release the keyboard
                     Keyboard.dismiss();
                     //set alarm
-                    Alarm.schedulePushNotification();
+                    let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
+                    console.log(arr)
+                    Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4]); //year, month, date, hour, mins
+                    console.log(scheduledNotificationDate+' scheduledNotificationDate test')
                 })
                 .catch((error) => {
                     alert(error);
@@ -49,6 +56,9 @@ export default function AdHocTask() {
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
             </View>
+            <DateTimePickerApp
+                setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
+            />
 </View>
     );
 }

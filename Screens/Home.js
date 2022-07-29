@@ -5,8 +5,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { FAB, Portal, Provider } from 'react-native-paper';
 
-import * as Alarm from './Alarm.js';
-
 const Home = () => {
     const [tasks, setTasks] = useState([]);
     const taskRef = firebase.firestore().collection('tasks');
@@ -132,7 +130,7 @@ const Home = () => {
                         {
                         icon: 'reload',
                         label: 'Recurring Task',
-                        onPress: () => console.log('Pressed Recurring Task'),
+                        onPress: () => navigation.navigate('DateTimePickerApp'),
                         },
                         {
                         icon: 'lead-pencil',
