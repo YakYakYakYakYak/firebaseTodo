@@ -31,7 +31,7 @@ export default function AdHocTask() {
                     //set alarm
                     let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
                     console.log(arr)
-                    Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4]); //year, month, date, hour, mins
+                    Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4], userInput); //year, month, date, hour, mins
                     console.log(scheduledNotificationDate+' scheduledNotificationDate test')
                 })
                 .catch((error) => {

@@ -38,7 +38,7 @@ export default function Alarm() {
   );
 }
 
-export async function schedulePushNotification(year, month, date, Hour, Minute) {
+export async function schedulePushNotification(year, month, date, Hour, Minute, userInput) {
 const trigger = new Date(Date.now());
 console.log(trigger+'before')
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setMonth
@@ -49,8 +49,8 @@ trigger.setSeconds(0)
 console.log(trigger+'after')
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "You've got mail! 📬",
-      body: 'vvvv',
+      title: "Habits Notification! 📬",
+      body: userInput,
       data: { data: 'goes here' },
     },
     trigger,
