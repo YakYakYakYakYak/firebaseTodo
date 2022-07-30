@@ -4,6 +4,8 @@ import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { FAB, Portal, Provider } from 'react-native-paper';
+import * as Notifications from 'expo-notifications';
+
 
 const Home = () => {
     const [tasks, setTasks] = useState([]);
@@ -36,16 +38,33 @@ const Home = () => {
     
     // delete task from db
     const deleteTask = (tasks) => {
+        var alarmIdentifier = '';
+        //get alarmIdentifier in order to cancel scheduled notification when task is deleted.
         taskRef
-            .doc(tasks.id)
-            .delete()
+            .doc(tasks.id).get().then((snapshot) => {
+                //console.log(snapshot.data())
+                alarmIdentifier = snapshot.data().alarmIdentifier
+                console.log(alarmIdentifier+' alarm identifier to be deleted');
+              })
+
             .then(() => {
+                //delete the task
+                taskRef.doc(tasks.id).delete()
                 // alert showing successful deletion
                 // ** TO BE IMPLEMENTED BACK AFTER TESTING. alert('Task deleted successfully')
+
+                //cancel scheduled notification.
+                cancelScheduledNotification(alarmIdentifier);
+
             })
             .catch(error => {
                 alert(error);
             })
+    }
+
+    //cancel scheduled notification function
+    async function cancelScheduledNotification(identifier) {
+        await Notifications.cancelScheduledNotificationAsync(identifier);
     }
 
     // // add a task
