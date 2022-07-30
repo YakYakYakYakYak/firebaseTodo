@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard } from 'react-native'
 import { firebase } from '../config';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as Alarm from './Alarm.js';
 import DateTimePickerApp, * as DateTimePicker from './DateTimePicker.js';
 
@@ -11,16 +11,20 @@ export default function AdHocTask() {
     
     //to send to DateTimePicker for user to pick schedule notification date.
     const [scheduledNotificationDate, setScheduledNotificationDate] = useState(27);
-    
-    // add a task
-    const addTask = () => {
-        //check if there is a valid user input
-        if(userInput && userInput.length > 0) {
-            //get timestamp
-            const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+    const [user, setUser] = useState(' ');
+    const [timeStamps, setTimeStamps] = useState(' ');
+    const [identifier, setIdentifier] = useState(' ');
+
+    //when alarm identifier changes, send data to be stored on database.
+    useEffect(() => {
+        //get timestamp
+        if(identifier != ' ') {
+            console.log(identifier+'test')
             const data = {
-                heading: userInput,
-                timeOfCreation: timestamp
+                heading: user,
+                timeOfCreation: timeStamps,
+                alarmIdentifier: identifier
             };
             taskRef
                 .add(data)
@@ -28,18 +32,32 @@ export default function AdHocTask() {
                     setUserInput('');
                     // release the keyboard
                     Keyboard.dismiss();
-                    //set alarm
-                    let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
-                    console.log(arr)
-                    Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4], userInput); //year, month, date, hour, mins
-                    console.log(scheduledNotificationDate+' scheduledNotificationDate test')
                 })
                 .catch((error) => {
                     alert(error);
                 })
         }
+      }, [identifier]);
+
+    // add a task
+    const addTask = () => {
+        //check if there is a valid user input
+        if(userInput && userInput.length > 0) {
+            //get timestamp
+            const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+            console.log(identifier+'before')
+            //set alarm
+            let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
+            console.log(arr)
+            Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4], userInput, {setIdentifier}); //year, month, date, hour, mins, fn to grab alarm identifier key
+            console.log(scheduledNotificationDate+' scheduledNotificationDate test')
+
+            setUser(userInput);
+            setTimeStamps(timestamp);
+            
+
+        }
     }
-    
     return (
 <View style={{flex:1}}>
             <View style={styles.formContainer}>
