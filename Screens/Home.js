@@ -20,20 +20,24 @@ const Home = () => {
 
     // fetch or read the data from firestore
     useEffect(() => {
-        taskRef.orderBy('timeOfCreation', 'desc')
-        .onSnapshot(
-            querySnapshot => {
-                const tasks = []
-                querySnapshot.forEach((doc) => {
-                    const {heading} = doc.data()
-                    tasks.push({
-                        id: doc.id,
-                        heading,
+        let isMounted = true;               // note mutable flag
+        if (isMounted) { //conditional check
+            taskRef.orderBy('timeOfCreation', 'desc')
+            .onSnapshot(
+                querySnapshot => {
+                    const tasks = []
+                    querySnapshot.forEach((doc) => {
+                        const {heading} = doc.data()
+                        tasks.push({
+                            id: doc.id,
+                            heading,
+                        })
                     })
-                })
-                setTasks(tasks)
-            }
-        )
+                    setTasks(tasks)
+                }
+            )
+        }
+        return () => { isMounted = false }; // cleanup toggles value, if unmounted
     }, [])
     
     // delete task from db
