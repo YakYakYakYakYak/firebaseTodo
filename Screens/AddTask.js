@@ -15,7 +15,7 @@ export default function AdHocTask() {
     const [alarmInitiated, setAlarmInitiated] = useState(false);
     
     //to send to DateTimePicker for user to pick schedule notification date.
-    const [scheduledNotificationDate, setScheduledNotificationDate] = useState(27);
+    const [scheduledNotificationDate, setScheduledNotificationDate] = useState('42');
 
     const [user, setUser] = useState(' ');
     const [timeStamps, setTimeStamps] = useState(' ');

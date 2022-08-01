@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react'
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { FAB, Portal, Provider } from 'react-native-paper';
+// import { FAB, Portal, Provider } from 'react-native-paper';
 import * as Notifications from 'expo-notifications';
-
+import MultiButton from './multiButton';
 
 const Home = () => {
     const [tasks, setTasks] = useState([]);
@@ -13,10 +13,10 @@ const Home = () => {
     const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
 
-    //FAB multi-button button
-    const [state, setState] = React.useState({ open: false });
-    const onStateChange = ({ open }) => setState({ open });
-    const { open } = state;
+    // //FAB multi-button button
+    // const [state, setState] = React.useState({ open: false });
+    // const onStateChange = ({ open }) => setState({ open });
+    // const { open } = state;
 
     // fetch or read the data from firestore
     useEffect(() => {
@@ -134,7 +134,8 @@ const Home = () => {
                 )}
             />
             {/* FAB Plus Button */}
-            <Provider>
+            <MultiButton/>
+            {/* <Provider>
                 <Portal>
                     <FAB.Group
                     open={open}
@@ -166,7 +167,7 @@ const Home = () => {
                     }}
                     />
                 </Portal>
-            </Provider>
+            </Provider> */}
         </View>
         
     )
