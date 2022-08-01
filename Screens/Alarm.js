@@ -58,6 +58,28 @@ console.log(trigger+'after')
     setIdentifier(identifier)
 }
 
+export async function scheduleRecurringNotification(dayArr, Hour, Minute, {setIdentifier}) {
+  var finale = [];
+  for(var i=0;i<dayArr.length;i++) {
+    const newIdentifier = await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Habits Notification! 📬",
+        body: 'Recurring Test 9.45, 9.46',
+      },
+      trigger: {
+        repeats: true,
+        weekday: dayArr[i],
+        hour: Hour,
+        minute: Minute
+      },
+    })
+    finale.push(newIdentifier)
+  }
+    //setIdentifier(identifier)
+    setIdentifier(finale);
+    //setIdentifier(identifier => [...identifier, newIdentifier]);
+  }
+
 export async function registerForPushNotificationsAsync() {
   let token;
   if (Device.isDevice) {
