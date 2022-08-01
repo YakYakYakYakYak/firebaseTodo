@@ -10,6 +10,7 @@ import DateTimePickerApp from '../Screens/DateTimePicker';
 import RecurringHome from "../Screens/RecurringHome";
 import addRecurringTask from '../Screens/AddRecurringTask';
 import DetailRecurring from "../Screens/DetailRecurring";
+import TimePickerApp from "../Screens/TimePicker";
 
 const Stack = createStackNavigator();
 
@@ -32,7 +33,24 @@ const MainStackNavigator = () => {
             name='DateTimePickerApp'
             component={DateTimePickerApp}
           />
-        </Stack.Navigator>
+          {/* Recurring Task Screens */}
+          <Stack.Screen
+            name='RecurringHomePage'
+            component={RecurringHome}
+          />
+          <Stack.Screen
+            name='DetailRecurring'
+            component={DetailRecurring}
+          />
+          <Stack.Screen
+            name='AddRecurringTask'
+            component={addRecurringTask}
+          />
+          <Stack.Screen
+            name='TimePickerApp'
+            component={TimePickerApp}
+          />
+            </Stack.Navigator>
     );
   }
 
@@ -62,9 +80,26 @@ const RecurringStackNavigator = () => {
         component={addRecurringTask}
       />
       <Stack.Screen
-        name='DateTimePickerApp'
-        component={DateTimePickerApp}
+        name='TimePickerApp'
+        component={TimePickerApp}
       />
+      {/* Ad-Hoc Screens */}
+      <Stack.Screen
+            name='HomePage'
+            component={Home}
+          />
+          <Stack.Screen
+            name='Detail'
+            component={Detail}
+          />
+          <Stack.Screen
+            name='AddTask'
+            component={AddTask}
+          />
+          <Stack.Screen
+            name='DateTimePickerApp'
+            component={DateTimePickerApp}
+          />
     </Stack.Navigator>
 );
 }

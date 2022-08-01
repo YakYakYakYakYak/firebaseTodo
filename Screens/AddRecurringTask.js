@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, Switch }
 import { firebase } from '../config';
 import React, { useState, useEffect } from 'react'
 import * as Alarm from './Alarm.js';
-import DateTimePickerApp, * as DateTimePicker from './DateTimePicker.js';
+import TimePickerApp from './TimePicker.js';
 
 // add a task
 export default function RecurringTask() {
@@ -120,7 +120,7 @@ export default function RecurringTask() {
                 value={isEnabled}
                 />
             </View>
-            {isEnabled == true ? <DateTimePickerApp
+            {isEnabled == true ? <TimePickerApp
                 setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
             /> : null}
             {/* <DateTimePickerApp

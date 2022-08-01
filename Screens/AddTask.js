@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, Switch }
 import { firebase } from '../config';
 import React, { useState, useEffect } from 'react'
 import * as Alarm from './Alarm.js';
-import DateTimePickerApp, * as DateTimePicker from './DateTimePicker.js';
+import DateTimePickerApp from './DateTimePicker.js';
 
 // add a task
 export default function AdHocTask() {
