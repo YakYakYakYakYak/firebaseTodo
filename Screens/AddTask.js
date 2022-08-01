@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, Switch } from 'react-native'
 import { firebase } from '../config';
 import React, { useState, useEffect } from 'react'
 import * as Alarm from './Alarm.js';
@@ -8,6 +8,11 @@ import DateTimePickerApp, * as DateTimePicker from './DateTimePicker.js';
 export default function AdHocTask() {
     const taskRef = firebase.firestore().collection('tasks');
     const [userInput, setUserInput] = useState('');
+
+    //Set alarm to true/false
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const [alarmInitiated, setAlarmInitiated] = useState(false);
     
     //to send to DateTimePicker for user to pick schedule notification date.
     const [scheduledNotificationDate, setScheduledNotificationDate] = useState(27);
@@ -18,8 +23,8 @@ export default function AdHocTask() {
 
     //when alarm identifier changes, send data to be stored on database.
     useEffect(() => {
-        //get timestamp
-        if(identifier != ' ') {
+        // if task has scheduled notification
+        if(identifier != ' ' && isEnabled) {
             console.log(identifier+'test')
             const data = {
                 heading: user,
@@ -37,25 +42,59 @@ export default function AdHocTask() {
                     alert(error);
                 })
         }
+        //else if task has no scheduled notification
+        else if(identifier == 'NULL' && !isEnabled) {
+            const data = {
+                heading: user,
+                timeOfCreation: timeStamps,
+                alarmIdentifier: identifier
+            };
+            taskRef
+                .add(data)
+                .then(() => {
+                    setUserInput('');
+                    // release the keyboard
+                    Keyboard.dismiss();
+                })
+                .catch((error) => {
+                    alert(error);
+                })
+            setIdentifier(' ')
+        }
+        setAlarmInitiated(false);
       }, [identifier]);
 
     // add a task
     const addTask = () => {
         //check if there is a valid user input
+        console.log(alarmInitiated+' starting of addtask')
         if(userInput && userInput.length > 0) {
             //get timestamp
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             console.log(identifier+'before')
+            // //set alarm
+            // let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
+            // console.log(arr)
+            // Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4], userInput, {setIdentifier}); //year, month, date, hour, mins, fn to grab alarm identifier key
+            // console.log(scheduledNotificationDate+' scheduledNotificationDate test')
+
+            setUser(userInput);
+            setTimeStamps(timestamp);
+            console.log(alarmInitiated+ 'before in addtask')
+            console.log(alarmInitiated+ 'after in addtask')
+            if(!isEnabled) {
+                setIdentifier('NULL')
+            }
+        }
+        if(!alarmInitiated && isEnabled) {
             //set alarm
             let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
             console.log(arr)
             Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4], userInput, {setIdentifier}); //year, month, date, hour, mins, fn to grab alarm identifier key
             console.log(scheduledNotificationDate+' scheduledNotificationDate test')
-
-            setUser(userInput);
-            setTimeStamps(timestamp);
-            
-
+            console.log(alarmInitiated+ 'before in if state')
+            setAlarmInitiated(true);
+            console.log(alarmInitiated+ 'after in if state')
         }
     }
     return (
@@ -73,10 +112,20 @@ export default function AdHocTask() {
                 <TouchableOpacity style={styles.button} onPress={addTask}>
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
+                <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+                />
             </View>
-            <DateTimePickerApp
+            {isEnabled == true ? <DateTimePickerApp
                 setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
-            />
+            /> : null}
+            {/* <DateTimePickerApp
+                setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
+            /> */}
 </View>
     );
 }
