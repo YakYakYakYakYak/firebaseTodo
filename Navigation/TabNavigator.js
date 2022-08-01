@@ -1,10 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { MainStackNavigator, RewardStackNavigator } from "./StackNavigator";
+import { MainStackNavigator, RewardStackNavigator, RecurringStackNavigator } from "./StackNavigator";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -24,6 +23,14 @@ const BottomTabNavigator = () => {
                 ),
               }}
             component={MainStackNavigator} />
+        <Tab.Screen 
+            name="RecurringHome" 
+            options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons name="reload" color={color} size={size} />
+                ),
+              }}
+            component={RecurringStackNavigator} />
         <Tab.Screen 
             name="Rewards" 
             options={{

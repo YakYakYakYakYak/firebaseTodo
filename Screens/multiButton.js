@@ -28,7 +28,7 @@ export default MultiButton= () => {
                     {
                     icon: 'reload',
                     label: 'Recurring Task',
-                    onPress: () => navigation.navigate('DateTimePickerApp'),
+                    onPress: () => navigation.navigate('AddRecurringTask'),
                     },
                     {
                     icon: 'lead-pencil',
