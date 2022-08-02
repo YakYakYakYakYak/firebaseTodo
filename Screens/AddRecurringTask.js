@@ -127,7 +127,11 @@ export default function RecurringTask() {
             if(parseInt(arr[0]) < 10) {
                 time += '0'
             }
-            time += (arr[0] + ':' + arr[1])
+            time += (arr[0] + ':')
+            if(parseInt(arr[1]) < 10) {
+                time += '0'
+            }
+            time += arr[1]
             if(parseInt(arr[0]) < 12) {
                 time += 'AM';
             }

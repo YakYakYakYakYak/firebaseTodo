@@ -23,9 +23,12 @@ const RecurringHome = () => {
                     const tasks = []
                     querySnapshot.forEach((doc) => {
                         const {heading} = doc.data()
+                        const {notificationTime} = doc.data()
                         tasks.push({
                             id: doc.id,
                             heading,
+                            notificationTime,
+
                         })
                     })
                     setTasks(tasks)
@@ -89,6 +92,8 @@ const RecurringHome = () => {
                             />
                             <View style={styles.innerContainer}>
                                 <Text style={styles.itemHeading}>
+                                    {item.notificationTime}
+                                    {'\n'}
                                     {item.heading[0].toUpperCase() + item.heading.slice(1)}
                                 </Text>
                             </View>

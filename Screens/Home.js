@@ -134,7 +134,7 @@ const Home = () => {
                             <View style={styles.innerContainer}>
                                 <Text style={styles.itemHeading}>
                                     Notification Date: {item.notificationDate}
-                                    {"\n"}
+                                    {'\n'}
                                     {item.heading[0].toUpperCase() + item.heading.slice(1)}                               
                                 </Text>
                             </View>

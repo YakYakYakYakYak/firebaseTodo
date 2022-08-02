@@ -95,7 +95,7 @@ export default function AdHocTask() {
             console.log(arr)
             //logic to configure notificationTime to be stored and displayed to users.
             tempScheduledDate += (arr[2]+'/'+arr[1]+'/'+arr[0]+'/')
-            if(parseInt(arr[3] < 10)) {
+            if(parseInt(arr[3]) < 10) {
                 tempScheduledDate += '0'
             }
             tempScheduledDate += (arr[3] + ':')
@@ -103,9 +103,9 @@ export default function AdHocTask() {
                 tempScheduledDate += '0'
             }
             tempScheduledDate += arr[4]
-            if(parseInt(arr[3]) < 10) {
+            if(parseInt(arr[3]) < 12) {
                 tempScheduledDate += 'AM'
-            } else if(parseInt(arr[3]) >= 12) {
+            } else {
                 tempScheduledDate += 'PM'
             }            
             setScheduledDate(tempScheduledDate);
