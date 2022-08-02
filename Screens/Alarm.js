@@ -51,20 +51,19 @@ console.log(trigger+'after')
     content: {
       title: "Habits Notification! 📬",
       body: userInput,
-      data: { data: 'goes here' },
     },
     trigger,
   })
     setIdentifier(identifier)
 }
 
-export async function scheduleRecurringNotification(dayArr, Hour, Minute, {setIdentifier}) {
+export async function scheduleRecurringNotification(dayArr, Hour, Minute, userInput, {setIdentifier}) {
   var finale = [];
   for(var i=0;i<dayArr.length;i++) {
     const newIdentifier = await Notifications.scheduleNotificationAsync({
       content: {
         title: "Habits Notification! 📬",
-        body: 'Recurring Test 9.45, 9.46',
+        body: userInput,
       },
       trigger: {
         repeats: true,

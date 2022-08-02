@@ -24,6 +24,21 @@ export default function RecurringTask() {
     const [tuesdayIsEnabled, setTuesdayIsEnabled] = useState(false);
     const toggleTuesdaySwitch = () => setTuesdayIsEnabled(previousState => !previousState);
 
+    const [wednesdayIsEnabled, setWednesdayIsEnabled] = useState(false);
+    const toggleWednesdaySwitch = () => setWednesdayIsEnabled(previousState => !previousState);
+
+    const [thursdayIsEnabled, setThursdayIsEnabled] = useState(false);
+    const toggleThursdaySwitch = () => setThursdayIsEnabled(previousState => !previousState);
+
+    const [fridayIsEnabled, setFridayIsEnabled] = useState(false);
+    const toggleFridaySwitch = () => setFridayIsEnabled(previousState => !previousState);
+
+    const [saturdayIsEnabled, setSaturdayIsEnabled] = useState(false);
+    const toggleSaturdaySwitch = () => setSaturdayIsEnabled(previousState => !previousState);
+
+    const [sundayIsEnabled, setSundayIsEnabled] = useState(false);
+    const toggleSundaySwitch = () => setSundayIsEnabled(previousState => !previousState);
+
     //when alarm identifier changes, send data to be stored on database.
     useEffect(() => {
         // if task has scheduled notification
@@ -64,7 +79,22 @@ export default function RecurringTask() {
             daysArr.push(2);
         }
         if(tuesdayIsEnabled) {
-            daysArr.push(2);
+            daysArr.push(3);
+        }
+        if(wednesdayIsEnabled) {
+            daysArr.push(4);
+        }
+        if(thursdayIsEnabled) {
+            daysArr.push(5);
+        }
+        if(fridayIsEnabled) {
+            daysArr.push(6);
+        }
+        if(saturdayIsEnabled) {
+            daysArr.push(7);
+        }
+        if(sundayIsEnabled) {
+            daysArr.push(1);
         }
       }
 
@@ -89,7 +119,7 @@ export default function RecurringTask() {
             let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
             // console.log(arr)
             //set alarm
-                Alarm.scheduleRecurringNotification(daysArr, parseInt(arr[0]), parseInt(arr[1]), {setIdentifier});           
+                Alarm.scheduleRecurringNotification(daysArr, parseInt(arr[0]), parseInt(arr[1]), userInput, {setIdentifier});           
         }
     }
     return (
@@ -113,6 +143,7 @@ export default function RecurringTask() {
                 >
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
+                <View>
                 <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
                 thumbColor={mondayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
@@ -127,6 +158,43 @@ export default function RecurringTask() {
                 onValueChange={toggleTuesdaySwitch}
                 value={tuesdayIsEnabled}
                 />
+                <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={wednesdayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleWednesdaySwitch}
+                value={wednesdayIsEnabled}
+                />
+                <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={thursdayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleThursdaySwitch}
+                value={thursdayIsEnabled}
+                />
+                <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={fridayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleFridaySwitch}
+                value={fridayIsEnabled}
+                />
+                <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={saturdayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSaturdaySwitch}
+                value={saturdayIsEnabled}
+                />
+                <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={sundayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSundaySwitch}
+                value={sundayIsEnabled}
+                />
+                </View>
+                
             </View>
             <TimePickerApp
                 setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
