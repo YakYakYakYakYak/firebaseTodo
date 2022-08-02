@@ -20,6 +20,7 @@ export default function AdHocTask() {
     const [user, setUser] = useState(' ');
     const [timeStamps, setTimeStamps] = useState(' ');
     const [identifier, setIdentifier] = useState(' ');
+    const [scheduledDate, setScheduledDate] = useState(' ');
 
     //when alarm identifier changes, send data to be stored on database.
     useEffect(() => {
@@ -29,7 +30,8 @@ export default function AdHocTask() {
             const data = {
                 heading: user,
                 timeOfCreation: timeStamps,
-                alarmIdentifier: identifier
+                alarmIdentifier: identifier,
+                notificationDate: scheduledDate,
             };
             taskRef
                 .add(data)
@@ -66,6 +68,7 @@ export default function AdHocTask() {
 
     // add a task
     const addTask = () => {
+        var tempScheduledDate = ''
         //check if there is a valid user input
         console.log(alarmInitiated+' starting of addtask')
         if(userInput && userInput.length > 0) {
@@ -90,6 +93,22 @@ export default function AdHocTask() {
             //set alarm
             let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
             console.log(arr)
+            //logic to configure notificationTime to be stored and displayed to users.
+            tempScheduledDate += (arr[2]+'/'+arr[1]+'/'+arr[0]+'/')
+            if(parseInt(arr[3] < 10)) {
+                tempScheduledDate += '0'
+            }
+            tempScheduledDate += (arr[3] + ':')
+            if(parseInt(arr[4]) < 10) {
+                tempScheduledDate += '0'
+            }
+            tempScheduledDate += arr[4]
+            if(parseInt(arr[3]) < 10) {
+                tempScheduledDate += 'AM'
+            } else if(parseInt(arr[3]) >= 12) {
+                tempScheduledDate += 'PM'
+            }            
+            setScheduledDate(tempScheduledDate);
             Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4], userInput, {setIdentifier}); //year, month, date, hour, mins, fn to grab alarm identifier key
             console.log(scheduledNotificationDate+' scheduledNotificationDate test')
             console.log(alarmInitiated+ 'before in if state')

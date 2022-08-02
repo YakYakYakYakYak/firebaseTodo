@@ -15,6 +15,7 @@ export default function RecurringTask() {
     const [user, setUser] = useState(' ');
     const [timeStamps, setTimeStamps] = useState(' ');
     const [identifier, setIdentifier] = useState([]);
+    const [hoursMins, setHoursMins] = useState(' ');
     var daysArr = [];
 
     //Set alarm to true/false
@@ -47,7 +48,8 @@ export default function RecurringTask() {
             const data = {
                 heading: user,
                 timeOfCreation: timeStamps,
-                alarmIdentifier: identifier
+                alarmIdentifier: identifier,
+                notificationTime: hoursMins,
             };
             RecurringTaskRef
                 .add(data)
@@ -75,6 +77,8 @@ export default function RecurringTask() {
 
       const checkDays = () => {
         //setting array
+        //https://docs.expo.dev/versions/latest/sdk/notifications/#getnotificationchannelgroupsasync-promisenotificationchannelgroup
+        //Note: Weekdays are specified with a number from 1 through 7, with 1 indicating Sunday.
         if(mondayIsEnabled) {
             daysArr.push(2);
         }
@@ -105,6 +109,7 @@ export default function RecurringTask() {
 
     // add a task
     const addRecurringTask = () => {
+        var time = ''
         //check if there is a valid user input
         // console.log(scheduledNotificationDate)
         // console.log(daysArr+' daysArr Before')
@@ -118,6 +123,18 @@ export default function RecurringTask() {
 
             let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
             // console.log(arr)
+            //logic to configure notificationTime to be stored and displayed to users.
+            if(parseInt(arr[0]) < 10) {
+                time += '0'
+            }
+            time += (arr[0] + ':' + arr[1])
+            if(parseInt(arr[0]) < 12) {
+                time += 'AM';
+            }
+            else {
+                time +='PM'
+            }
+            setHoursMins(time);
             //set alarm
                 Alarm.scheduleRecurringNotification(daysArr, parseInt(arr[0]), parseInt(arr[1]), userInput, {setIdentifier});           
         }
@@ -194,14 +211,10 @@ export default function RecurringTask() {
                 value={sundayIsEnabled}
                 />
                 </View>
-                
             </View>
             <TimePickerApp
                 setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
             />
-            {/* <DateTimePickerApp
-                setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
-            /> */}
 </View>
     );
 }

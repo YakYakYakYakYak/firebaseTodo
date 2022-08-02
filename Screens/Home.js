@@ -28,9 +28,12 @@ const Home = () => {
                     const tasks = []
                     querySnapshot.forEach((doc) => {
                         const {heading} = doc.data()
+                        const {notificationDate} = doc.data()
                         tasks.push({
                             id: doc.id,
                             heading,
+                            notificationDate,
+
                         })
                     })
                     setTasks(tasks)
@@ -130,7 +133,9 @@ const Home = () => {
                             />
                             <View style={styles.innerContainer}>
                                 <Text style={styles.itemHeading}>
-                                    {item.heading[0].toUpperCase() + item.heading.slice(1)}
+                                    Notification Date: {item.notificationDate}
+                                    {"\n"}
+                                    {item.heading[0].toUpperCase() + item.heading.slice(1)}                               
                                 </Text>
                             </View>
                         </Pressable>

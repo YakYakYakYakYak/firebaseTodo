@@ -69,48 +69,8 @@ const RecurringHome = () => {
             await Notifications.cancelScheduledNotificationAsync(identifier[i]);
         }
     }
-
-    // // add a task
-    // const addTask = () => {
-    //     //check if there is a valid user input
-    //     if(userInput && userInput.length > 0) {
-    //         //get timestamp
-    //         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-    //         const data = {
-    //             heading: userInput,
-    //             timeOfCreation: timestamp
-    //         };
-    //         taskRef
-    //             .add(data)
-    //             .then(() => {
-    //                 setUserInput('');
-    //                 // release the keyboard
-    //                 Keyboard.dismiss();
-    //                 //set alarm
-    //                 Alarm.schedulePushNotification();
-    //             })
-    //             .catch((error) => {
-    //                 alert(error);
-    //             })
-    //     }
-    // }
     return(
-        
         <View style={{flex:1, marginTop:50}}>
-            {/* <View style={styles.formContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Add new task'
-                    placeholderTextColor='#aaaaaa'
-                    onChangeText={(heading) => setUserInput(heading)}
-                    value={userInput}
-                    underlineColorAndroid='transparent'
-                    autoCapitalize='none'
-                />
-                <TouchableOpacity style={styles.button} onPress={addTask}>
-                    <Text style={styles.buttonText}>Add</Text>
-                </TouchableOpacity>
-            </View> */}
             <FlatList
                 data={tasks}
                 numColumns={1}
@@ -138,39 +98,6 @@ const RecurringHome = () => {
             />
             {/* FAB Plus Button */}
             <MultiButton/>
-            {/* <Provider>
-                <Portal>
-                    <FAB.Group
-                    open={open}
-                    icon={open ? 'close' : 'plus'}
-                    actions={[
-                        { icon: 'plus', onPress: () => console.log('Pressed add') },
-                        {
-                        icon: 'gift',
-                        label: 'Rewards',
-                        onPress: () => console.log('Pressed rewards'),
-                        },
-                        {
-                        icon: 'reload',
-                        label: 'Recurring Task',
-                        onPress: () => navigation.navigate('DateTimePickerApp'),
-                        },
-                        {
-                        icon: 'lead-pencil',
-                        label: 'Ad-Hoc Task',
-                        onPress: () => navigation.navigate('AddTask'),
-                        },
-                    ]}
-                    onStateChange={onStateChange}
-                    onPress={() => {
-                        if (open) {
-                        // do something if the speed dial is open
-                        console.log('hello')
-                        }
-                    }}
-                    />
-                </Portal>
-            </Provider> */}
         </View>
         
     )

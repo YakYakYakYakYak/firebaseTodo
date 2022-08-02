@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
     return (
-        <Stack.Navigator screenOptions={{headerShown: true}}>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen
             name='HomePage'
             component={Home}
@@ -66,7 +66,7 @@ const RewardStackNavigator = () => {
 
 const RecurringStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: true}}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen
         name='RecurringHomePage'
         component={RecurringHome}
