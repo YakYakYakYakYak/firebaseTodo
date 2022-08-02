@@ -13,11 +13,6 @@ const RecurringHome = () => {
     const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
 
-    // //FAB multi-button button
-    // const [state, setState] = React.useState({ open: false });
-    // const onStateChange = ({ open }) => setState({ open });
-    // const { open } = state;
-
     // fetch or read the data from firestore
     useEffect(() => {
         let isMounted = true;               // note mutable flag
@@ -48,7 +43,8 @@ const RecurringHome = () => {
             .doc(tasks.id).get().then((snapshot) => {
                 //console.log(snapshot.data())
                 alarmIdentifier = snapshot.data().alarmIdentifier
-                console.log(alarmIdentifier+' alarm identifier to be deleted');
+                // console.log(alarmIdentifier+' alarm identifier to be deleted');
+                // console.log(typeof(alarmIdentifier+' datatype'))
               })
 
             .then(() => {
@@ -68,7 +64,10 @@ const RecurringHome = () => {
 
     //cancel scheduled notification function
     async function cancelScheduledNotification(identifier) {
-        await Notifications.cancelScheduledNotificationAsync(identifier);
+        for(var i =0;i<identifier.length;i++) {
+            console.log(identifier[i])
+            await Notifications.cancelScheduledNotificationAsync(identifier[i]);
+        }
     }
 
     // // add a task
