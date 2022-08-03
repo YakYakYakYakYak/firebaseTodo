@@ -18,7 +18,7 @@ const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
     return (
-        <Stack.Navigator screenOptions={{headerShown: true}}>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen
             name='HomePage'
             component={Home}
@@ -41,9 +41,7 @@ const MainStackNavigator = () => {
 
 const RewardStackNavigator = () => {
     return (
-        <Stack.Navigator
-        screenOptions={{headerShown: true}}
-        >
+        <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen
               name="RewardPage" 
               component={Reward}
@@ -58,7 +56,7 @@ const RewardStackNavigator = () => {
 
 const RecurringStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: true}}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen
         name='RecurringHomePage'
         component={RecurringHome}
@@ -76,7 +74,7 @@ const RecurringStackNavigator = () => {
         component={TimePickerApp}
       />
     </Stack.Navigator>
-);
+    );
 }
 
 export { MainStackNavigator, RewardStackNavigator, RecurringStackNavigator };

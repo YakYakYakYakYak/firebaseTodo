@@ -32,7 +32,7 @@ const BottomTabNavigator = () => {
               }}
             component={RecurringStackNavigator} />
         <Tab.Screen 
-            name="Rewards" 
+            name="Reward" 
             options={{
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons name="gift" color={color} size={size} />

@@ -23,7 +23,7 @@ export default MultiButton= () => {
                     {
                     icon: 'gift',
                     label: 'Rewards',
-                    onPress: () => navigation.navigate('Rewards', {screen: 'AddReward'}),
+                    onPress: () => navigation.navigate('Reward', {screen: 'AddReward'}),
                     },
                     {
                     icon: 'reload',
