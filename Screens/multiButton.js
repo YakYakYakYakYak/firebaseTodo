@@ -23,17 +23,17 @@ export default MultiButton= () => {
                     {
                     icon: 'gift',
                     label: 'Rewards',
-                    onPress: () => console.log('Pressed rewards'),
+                    onPress: () => navigation.navigate('Rewards', {screen: 'AddReward'}),
                     },
                     {
                     icon: 'reload',
                     label: 'Recurring Task',
-                    onPress: () => navigation.navigate('AddRecurringTask'),
+                    onPress: () => navigation.navigate('RecurringHome', {screen: 'AddRecurringTask'}),
                     },
                     {
                     icon: 'lead-pencil',
                     label: 'Ad-Hoc Task',
-                    onPress: () => navigation.navigate('AddTask'),
+                    onPress: () => navigation.navigate('Home', {screen: 'AddTask'}),
                     },
                 ]}
                 onStateChange={onStateChange}
