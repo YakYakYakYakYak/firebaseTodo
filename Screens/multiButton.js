@@ -23,6 +23,7 @@ export default MultiButton= () => {
                     {
                     icon: 'gift',
                     label: 'Rewards',
+                    //https://stackoverflow.com/questions/63566372/how-do-navigate-to-a-tab-from-another-tab-using-react-navigation-v5
                     onPress: () => navigation.navigate('Reward', {screen: 'AddReward'}),
                     },
                     {

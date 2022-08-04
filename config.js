@@ -13,6 +13,8 @@ const firebaseConfig = {
 
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig)
+    //https://stackoverflow.com/questions/65594133/react-native-to-firestore-firestore-8-2-1-connection-webchannel-transport-er
+    firebase.firestore().settings({ experimentalForceLongPolling: true, merge:true });
 }
 
 export { firebase };
