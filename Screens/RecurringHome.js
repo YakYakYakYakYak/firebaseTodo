@@ -82,7 +82,8 @@ const RecurringHome = () => {
                         <Pressable
                             style={styles.container}
                             // navigate to update task page.
-                            onPress={() => navigation.navigate('DetailRecurring', {item})}
+                            onPress={() => console.log('tap')}
+                            onLongPress={() => navigation.navigate('DetailRecurring', {item})}//on longpress, go to edit page
                         >
                             <FontAwesome 
                                 name='trash-o'
@@ -92,7 +93,7 @@ const RecurringHome = () => {
                             />
                             <View style={styles.innerContainer}>
                                 <Text style={styles.itemHeading}>
-                                    {item.notificationTime}
+                                    Repeats every: {item.notificationTime}
                                     {'\n'}
                                     {item.heading[0].toUpperCase() + item.heading.slice(1)}
                                 </Text>

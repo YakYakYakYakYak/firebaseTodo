@@ -8,7 +8,7 @@ const Detail = ({route}) => {
     const [textHeading, onChangeHeadingText] = useState(route.params.item.name);
     const navigation = useNavigation();
 
-    const updateTodo = () => {
+    const updateTask = () => {
         if(textHeading && textHeading.length > 0) {
             taskRef
             .doc(route.params.item.id)
@@ -31,9 +31,9 @@ const Detail = ({route}) => {
             />
             <Pressable
             style={styles.buttonUpdate}
-            onPress={() => {updateTodo()}}
+            onPress={() => {updateTask()}}
             >
-                <Text>Update Todo</Text>
+                <Text>Update Task</Text>
             </Pressable>
         </View>
     )

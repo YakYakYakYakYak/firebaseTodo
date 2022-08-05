@@ -4,7 +4,6 @@ import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 // import { FAB, Portal, Provider } from 'react-native-paper';
-import * as Notifications from 'expo-notifications';
 import MultiButton from './multiButton';
 
 const Rewards = () => {
@@ -12,6 +11,11 @@ const Rewards = () => {
     const rewardRef = firebase.firestore().collection('rewards');
     const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
+
+    //accumulated points variables
+    var [points, setPoints] = useState([]);
+    const pointsRef = firebase.firestore().collection('accumulatedPoints');
+
 
     // fetch or read the data from firestore
     useEffect(() => {
@@ -31,74 +35,41 @@ const Rewards = () => {
                     setTasks(tasks)
                 }
             )
+        //fetch total accumulated points
+        pointsRef.orderBy('totalPoints', 'desc')
+        .onSnapshot(
+            querySnapshot => {
+                var points = 0
+                querySnapshot.forEach((doc) => {
+                    const {totalPoints} = doc.data()
+                    points = totalPoints
+                })
+                setPoints(points)
+                }
+            )
         }
         return () => { isMounted = false }; // cleanup toggles value, if unmounted
     }, [])
-    
+
     // delete task from db
     const deleteTask = (tasks) => {
-        var alarmIdentifier = '';
-        //get alarmIdentifier in order to cancel scheduled notification when task is deleted.
         rewardRef
-            .doc(tasks.id).get().then((snapshot) => {
-                //console.log(snapshot.data())
-                alarmIdentifier = snapshot.data().alarmIdentifier
-                console.log(alarmIdentifier+' alarm identifier to be deleted');
-              })
-
-            .then(() => {
-                //delete the task
-                rewardRef.doc(tasks.id).delete()
-                // alert showing successful deletion
-                // ** TO BE IMPLEMENTED BACK AFTER TESTING. alert('Task deleted successfully')
-
-            })
+            //delete the task
+            rewardRef.doc(tasks.id).delete()
+            // alert showing successful deletion
+            // ** TO BE IMPLEMENTED BACK AFTER TESTING. alert('Task deleted successfully')
             .catch(error => {
                 alert(error);
             })
     }
-
-    // // add a task
-    // const addTask = () => {
-    //     //check if there is a valid user input
-    //     if(userInput && userInput.length > 0) {
-    //         //get timestamp
-    //         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-    //         const data = {
-    //             heading: userInput,
-    //             timeOfCreation: timestamp
-    //         };
-    //         taskRef
-    //             .add(data)
-    //             .then(() => {
-    //                 setUserInput('');
-    //                 // release the keyboard
-    //                 Keyboard.dismiss();
-    //                 //set alarm
-    //                 Alarm.schedulePushNotification();
-    //             })
-    //             .catch((error) => {
-    //                 alert(error);
-    //             })
-    //     }
-    // }
     return(
         
         <View style={{flex:1, marginTop:50}}>
-            {/* <View style={styles.formContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Add new task'
-                    placeholderTextColor='#aaaaaa'
-                    onChangeText={(heading) => setUserInput(heading)}
-                    value={userInput}
-                    underlineColorAndroid='transparent'
-                    autoCapitalize='none'
-                />
-                <TouchableOpacity style={styles.button} onPress={addTask}>
-                    <Text style={styles.buttonText}>Add</Text>
-                </TouchableOpacity>
-            </View> */}
+            <View>
+                <Text>
+                    {points}
+                </Text>
+            </View>
             <FlatList
                 data={tasks}
                 numColumns={1}
@@ -107,7 +78,7 @@ const Rewards = () => {
                         <Pressable
                             style={styles.container}
                             // navigate to update task page.
-                            onPress={() => navigation.navigate('Detail', {item})}
+                            onPress={() => console.log('tap reward')}
                         >
                             <FontAwesome 
                                 name='trash-o'
@@ -126,39 +97,6 @@ const Rewards = () => {
             />
             {/* FAB Plus Button */}
             <MultiButton/>
-            {/* <Provider>
-                <Portal>
-                    <FAB.Group
-                    open={open}
-                    icon={open ? 'close' : 'plus'}
-                    actions={[
-                        { icon: 'plus', onPress: () => console.log('Pressed add') },
-                        {
-                        icon: 'gift',
-                        label: 'Rewards',
-                        onPress: () => console.log('Pressed rewards'),
-                        },
-                        {
-                        icon: 'reload',
-                        label: 'Recurring Task',
-                        onPress: () => navigation.navigate('DateTimePickerApp'),
-                        },
-                        {
-                        icon: 'lead-pencil',
-                        label: 'Ad-Hoc Task',
-                        onPress: () => navigation.navigate('AddTask'),
-                        },
-                    ]}
-                    onStateChange={onStateChange}
-                    onPress={() => {
-                        if (open) {
-                        // do something if the speed dial is open
-                        console.log('hello')
-                        }
-                    }}
-                    />
-                </Portal>
-            </Provider> */}
         </View>
         
     )

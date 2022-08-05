@@ -2,10 +2,21 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, Switch }
 import { firebase } from '../config';
 import React, { useState } from 'react'
 
+import SwitchSelector from 'react-native-switch-selector';
+
 // add a task
 export default function AdHocTask() {
     const rewardRef = firebase.firestore().collection('rewards');
     const [userInput, setUserInput] = useState('');
+    const [pointsRequired, setPointsRequired] = useState(1);
+
+
+    //switchselector options
+    const options = [
+        { label: '1pt', value: '1' },
+        { label: '2pt', value: '2' },
+        { label: '3pt', value: '3' }
+    ];
 
     const addReward = () => {
         //check if there is a current todo
@@ -14,7 +25,8 @@ export default function AdHocTask() {
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             const data = {
                 heading: userInput,
-                timeOfCreation: timestamp
+                timeOfCreation: timestamp,
+                pointsRequired: pointsRequired,
             };
             rewardRef
                 .add(data)
@@ -33,7 +45,7 @@ export default function AdHocTask() {
             <View style={styles.formContainer}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Add new task'
+                    placeholder='Add new Reward'
                     placeholderTextColor='#aaaaaa'
                     onChangeText={(heading) => setUserInput(heading)}
                     value={userInput}
@@ -44,6 +56,23 @@ export default function AdHocTask() {
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
             </View>
+            <Text>Set Points required to achieve this reward</Text>
+            <SwitchSelector
+                initial={0}
+                onPress={value => setPointsRequired(value)}
+                textColor={'#F29913'}
+                selectedColor={'white'}
+                buttonColor={'#F29913'}
+                borderColor={'#F29913'}
+                hasPadding
+                options={[
+                    { label: "1pt", value: 1 },
+                    { label: "2pt", value: 2 },
+                    { label: "3pt", value: 3 } 
+                ]}
+                testID="gender-switch-selector"
+                accessibilityLabel="gender-switch-selector"
+            />
 </View>
     );
 }
@@ -87,7 +116,7 @@ const styles = StyleSheet.create({
     button: {
         height:47,
         borderRadius:5,
-        backgroundColor:'#788eec',
+        backgroundColor:'#F29913',
         width:80,
         alignItems:'center',
         justifyContent:'center',

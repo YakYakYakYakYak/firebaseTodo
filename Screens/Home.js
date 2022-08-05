@@ -12,12 +12,11 @@ const Home = () => {
     const taskRef = firebase.firestore().collection('tasks');
     const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
-
-    // //FAB multi-button button
-    // const [state, setState] = React.useState({ open: false });
-    // const onStateChange = ({ open }) => setState({ open });
-    // const { open } = state;
-
+    
+    const [check,setCheck] = useState(true);
+    const CheckWork =()=>{
+    check ? setCheck(false) : setCheck(true)
+    }
     // fetch or read the data from firestore
     useEffect(() => {
         let isMounted = true;               // note mutable flag
@@ -29,10 +28,12 @@ const Home = () => {
                     querySnapshot.forEach((doc) => {
                         const {heading} = doc.data()
                         const {notificationDate} = doc.data()
+                        const {alarmIdentifier} = doc.data()
                         tasks.push({
                             id: doc.id,
                             heading,
                             notificationDate,
+                            alarmIdentifier,
 
                         })
                     })
@@ -74,47 +75,9 @@ const Home = () => {
         await Notifications.cancelScheduledNotificationAsync(identifier);
     }
 
-    // // add a task
-    // const addTask = () => {
-    //     //check if there is a valid user input
-    //     if(userInput && userInput.length > 0) {
-    //         //get timestamp
-    //         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-    //         const data = {
-    //             heading: userInput,
-    //             timeOfCreation: timestamp
-    //         };
-    //         taskRef
-    //             .add(data)
-    //             .then(() => {
-    //                 setUserInput('');
-    //                 // release the keyboard
-    //                 Keyboard.dismiss();
-    //                 //set alarm
-    //                 Alarm.schedulePushNotification();
-    //             })
-    //             .catch((error) => {
-    //                 alert(error);
-    //             })
-    //     }
-    // }
     return(
         
         <View style={{flex:1, marginTop:50}}>
-            {/* <View style={styles.formContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Add new task'
-                    placeholderTextColor='#aaaaaa'
-                    onChangeText={(heading) => setUserInput(heading)}
-                    value={userInput}
-                    underlineColorAndroid='transparent'
-                    autoCapitalize='none'
-                />
-                <TouchableOpacity style={styles.button} onPress={addTask}>
-                    <Text style={styles.buttonText}>Add</Text>
-                </TouchableOpacity>
-            </View> */}
             <FlatList
                 data={tasks}
                 numColumns={1}
@@ -123,60 +86,33 @@ const Home = () => {
                         <Pressable
                             style={styles.container}
                             // navigate to update task page.
-                            onPress={() => navigation.navigate('Detail', {item})}
+                            onPress={() => {CheckWork()}}
+                            onLongPress={() => navigation.navigate('Detail', {item})}//on longpress, go to edit page//on longpress, go to edit page
                         >
                             <FontAwesome 
                                 name='trash-o'
-                                color='red'
+                                color='black'
                                 onPress={() => deleteTask(item)}
                                 style={styles.todoIcon}
                             />
                             <View style={styles.innerContainer}>
-                                <Text style={styles.itemHeading}>
-                                    Notification Date: {item.notificationDate}
-                                    {'\n'}
-                                    {item.heading[0].toUpperCase() + item.heading.slice(1)}                               
-                                </Text>
+                                {item.alarmIdentifier != "NULL"? 
+                                    <Text style={check ?styles.itemText:styles.TextDone}>
+                                        Alarm set: {item.notificationDate}
+                                        {'\n'}
+                                        {item.heading[0].toUpperCase() + item.heading.slice(1)}                        
+                                    </Text>
+                                :   <Text style={check ?styles.itemText:styles.TextDone}>
+                                        {item.heading[0].toUpperCase() + item.heading.slice(1)}
+                                    </Text> }
                             </View>
+                                {/* <Task alarmIdentifier ={item.alarmIdentifier} notificationDate = {item.notificationDate} heading = {item.heading} /> */}
                         </Pressable>
                     </View>
                 )}
             />
             {/* FAB Plus Button */}
             <MultiButton/>
-            {/* <Provider>
-                <Portal>
-                    <FAB.Group
-                    open={open}
-                    icon={open ? 'close' : 'plus'}
-                    actions={[
-                        { icon: 'plus', onPress: () => console.log('Pressed add') },
-                        {
-                        icon: 'gift',
-                        label: 'Rewards',
-                        onPress: () => console.log('Pressed rewards'),
-                        },
-                        {
-                        icon: 'reload',
-                        label: 'Recurring Task',
-                        onPress: () => navigation.navigate('DateTimePickerApp'),
-                        },
-                        {
-                        icon: 'lead-pencil',
-                        label: 'Ad-Hoc Task',
-                        onPress: () => navigation.navigate('AddTask'),
-                        },
-                    ]}
-                    onStateChange={onStateChange}
-                    onPress={() => {
-                        if (open) {
-                        // do something if the speed dial is open
-                        console.log('hello')
-                        }
-                    }}
-                    />
-                </Portal>
-            </Provider> */}
         </View>
         
     )
@@ -184,6 +120,29 @@ const Home = () => {
 
 export default Home
 
+// export const Task = (props) => {
+//     const [check,setCheck] = useState(true);
+//     const CheckWork =()=>{
+//         check ? setCheck(false) : setCheck(true)
+//     }
+
+//     return(
+//         <Pressable onPress={CheckWork}>
+//         <View style={styles.innerContainer}>
+//             {props.alarmIdentifier != "NULL"? 
+//                 <><Text>
+//                     Alarm: {props.notificationDate}
+//                 </Text>
+//                 <Text style={check ?styles.itemText:styles.TextDone}>   
+//                     {props.heading[0].toUpperCase() + props.heading.slice(1)}
+//                 </Text></>
+//             :   <Text style={check ?styles.itemText:styles.TextDone}>
+//                     {props.heading[0].toUpperCase() + props.heading.slice(1)}
+//                 </Text> }
+//         </View>
+//         </Pressable>
+//     )
+// }
 const styles = StyleSheet.create({
     container: {
         backgroundColor:'#e5e5e5',
@@ -236,6 +195,18 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontSize: 20,
         marginLeft:14,
-    }
-    
+    },
+    itemText: {
+        fontWeight:'bold',
+        fontSize:16,
+        marginLeft:10,
+        // maxWidth: '75%'
+    },
+    TextDone:{
+    fontWeight:'bold',
+    fontSize:16,
+    marginLeft:10,
+    textDecorationLine:'line-through',
+    //maxWidth: '75%'
+    },  
 })

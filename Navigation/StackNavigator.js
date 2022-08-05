@@ -14,11 +14,24 @@ import TimePickerApp from "../Screens/TimePicker";
 
 import AddReward from '../Screens/AddReward';
 
+
+import { Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
+  const navigation = useNavigation();
     return (
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Navigator 
+          screenOptions={{
+            header: () => (
+              <Button
+                onPress={() => navigation.navigate('Home', {screen: 'HomePage'})}
+                title="Ad-Hoc Tasks"
+                color="#F29913"
+              />
+            ),}}>
           <Stack.Screen
             name='HomePage'
             component={Home}
@@ -40,8 +53,17 @@ const MainStackNavigator = () => {
   }
 
 const RewardStackNavigator = () => {
+  const navigation = useNavigation();
     return (
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Navigator 
+        screenOptions={{
+          header: () => (
+            <Button
+              onPress={() => navigation.navigate('Reward', {screen: 'RewardPage'})}
+              title="Rewards"
+              color="#F29913"
+            />
+          ),}}>
           <Stack.Screen
               name="RewardPage" 
               component={Reward}
@@ -55,8 +77,18 @@ const RewardStackNavigator = () => {
 }
 
 const RecurringStackNavigator = () => {
+  const navigation = useNavigation();
+
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator 
+      screenOptions={{
+        header: () => (
+          <Button
+            onPress={() => navigation.navigate('RecurringHome', {screen: 'RecurringHomePage'})}
+            title="Recurring Tasks"
+            color="#F29913"
+          />
+        ),}}>
       <Stack.Screen
         name='RecurringHomePage'
         component={RecurringHome}

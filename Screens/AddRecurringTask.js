@@ -3,6 +3,7 @@ import { firebase } from '../config';
 import React, { useState, useEffect } from 'react'
 import * as Alarm from './Alarm.js';
 import TimePickerApp from './TimePicker.js';
+import SwitchSelector from 'react-native-switch-selector';
 
 // add a task
 export default function RecurringTask() {
@@ -16,7 +17,15 @@ export default function RecurringTask() {
     const [timeStamps, setTimeStamps] = useState(' ');
     const [identifier, setIdentifier] = useState([]);
     const [hoursMins, setHoursMins] = useState(' ');
+    const [pointsAwarded, setPointsAwarded] = useState(1); // points awarded per completion of this recurring task
     var daysArr = [];
+
+    //switchselector options
+    const options = [
+        { label: '1pt', value: '1' },
+        { label: '2pt', value: '2' },
+        { label: '3pt', value: '3' }
+    ];
 
     //Set alarm to true/false
     const [mondayIsEnabled, setMondayIsEnabled] = useState(false);
@@ -50,6 +59,7 @@ export default function RecurringTask() {
                 timeOfCreation: timeStamps,
                 alarmIdentifier: identifier,
                 notificationTime: hoursMins,
+                pointsAwarded: pointsAwarded,
             };
             RecurringTaskRef
                 .add(data)
@@ -109,6 +119,14 @@ export default function RecurringTask() {
 
     // add a task
     const addRecurringTask = () => {
+        if(scheduledNotificationDate == '42') {
+            alert('Please pick a time for the alarm to repeat')
+            return;
+        }
+        if(daysArr.length === 0) {
+            alert('Please pick the days you want the alarm to repeat')
+            return;
+        }
         var time = ''
         //check if there is a valid user input
         // console.log(scheduledNotificationDate)
@@ -148,7 +166,7 @@ export default function RecurringTask() {
             <View style={styles.formContainer}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Add new task'
+                    placeholder='Add new recurring task'
                     placeholderTextColor='#aaaaaa'
                     onChangeText={(heading) => setUserInput(heading)}
                     value={userInput}
@@ -216,6 +234,23 @@ export default function RecurringTask() {
                 />
                 </View>
             </View>
+            <Text>Set Points awarded per completion of this recurring task</Text>
+            <SwitchSelector
+                initial={0}
+                onPress={value => setPointsAwarded(value)}
+                textColor={'#F29913'}
+                selectedColor={'white'}
+                buttonColor={'#F29913'}
+                borderColor={'#F29913'}
+                hasPadding
+                options={[
+                    { label: "1pt", value: 1 },
+                    { label: "2pt", value: 2 },
+                    { label: "3pt", value: 3 } 
+                ]}
+                testID="gender-switch-selector"
+                accessibilityLabel="gender-switch-selector"
+            />
             <TimePickerApp
                 setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
             />
@@ -262,7 +297,7 @@ const styles = StyleSheet.create({
     button: {
         height:47,
         borderRadius:5,
-        backgroundColor:'#788eec',
+        backgroundColor:'#F29913',
         width:80,
         alignItems:'center',
         justifyContent:'center',
