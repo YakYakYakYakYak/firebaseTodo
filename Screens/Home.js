@@ -28,11 +28,13 @@ const Home = () => {
                     querySnapshot.forEach((doc) => {
                         const {heading} = doc.data()
                         const {notificationDate} = doc.data()
+                        const {isCompleted} = doc.data()
                         const {alarmIdentifier} = doc.data()
                         tasks.push({
                             id: doc.id,
                             heading,
                             notificationDate,
+                            isCompleted,
                             alarmIdentifier,
 
                         })
@@ -75,6 +77,23 @@ const Home = () => {
         await Notifications.cancelScheduledNotificationAsync(identifier);
     }
 
+    const updateCompletion = (item) => {
+        var oldState = '';
+        //get current state of isCompleted
+        taskRef
+            .doc(item.id).get().then((snapshot) => {
+                //console.log(snapshot.data())
+                oldState = snapshot.data().isCompleted//so that we can do isCompleted = !oldState to alternate between whether is true/false completed.
+              }).then (() => {
+                taskRef
+                    .doc(item.id)
+                    .update({
+                        isCompleted: !oldState
+                    })
+            }).catch((error) => {
+                alert(error.message)
+            })
+    }
     return(
         
         <View style={{flex:1, marginTop:50}}>
@@ -86,7 +105,7 @@ const Home = () => {
                         <Pressable
                             style={styles.container}
                             // navigate to update task page.
-                            onPress={() => {CheckWork()}}
+                            onPress={() => {updateCompletion(item)}}
                             onLongPress={() => navigation.navigate('Detail', {item})}//on longpress, go to edit page//on longpress, go to edit page
                         >
                             <FontAwesome 
@@ -96,17 +115,26 @@ const Home = () => {
                                 style={styles.todoIcon}
                             />
                             <View style={styles.innerContainer}>
+                                {/* if there is alarm */}
                                 {item.alarmIdentifier != "NULL"? 
                                     <Text style={check ?styles.itemText:styles.TextDone}>
                                         Alarm set: {item.notificationDate}
-                                        {'\n'}
-                                        {item.heading[0].toUpperCase() + item.heading.slice(1)}                        
+                    
                                     </Text>
-                                :   <Text style={check ?styles.itemText:styles.TextDone}>
-                                        {item.heading[0].toUpperCase() + item.heading.slice(1)}
-                                    </Text> }
+                                    // else dont show alarm text
+                                :   null }
+                                    {/* if item is marked as completed, crossout item */}
+                                    {item.isCompleted == true?
+                                        <Text style={styles.TextDone}>
+                                            {item.heading[0].toUpperCase() + item.heading.slice(1)}
+                                        </Text>
+                                        // else render item normally
+                                :
+                                        <Text style={styles.itemText}>
+                                            {item.heading[0].toUpperCase() + item.heading.slice(1)}
+                                        </Text>
+                                    }
                             </View>
-                                {/* <Task alarmIdentifier ={item.alarmIdentifier} notificationDate = {item.notificationDate} heading = {item.heading} /> */}
                         </Pressable>
                     </View>
                 )}
@@ -154,7 +182,7 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     innerContainer: {
-        alignItems:'center',
+        // alignItems:'center',
         flexDirection:'column',
         marginLeft:45,
     },

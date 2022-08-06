@@ -30,6 +30,7 @@ export default function AdHocTask() {
             const data = {
                 heading: user,
                 timeOfCreation: timeStamps,
+                isCompleted: false,
                 alarmIdentifier: identifier,
                 notificationDate: scheduledDate,
             };
@@ -49,7 +50,8 @@ export default function AdHocTask() {
             const data = {
                 heading: user,
                 timeOfCreation: timeStamps,
-                alarmIdentifier: identifier
+                isCompleted: false,
+                alarmIdentifier: identifier,
             };
             taskRef
                 .add(data)
