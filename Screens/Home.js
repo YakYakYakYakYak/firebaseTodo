@@ -78,20 +78,16 @@ const Home = () => {
     }
 
     const updateCompletion = (item) => {
-        var oldState = '';
+        var oldState = item.isCompleted
         //get current state of isCompleted
+        
         taskRef
-            .doc(item.id).get().then((snapshot) => {
-                //console.log(snapshot.data())
-                oldState = snapshot.data().isCompleted//so that we can do isCompleted = !oldState to alternate between whether is true/false completed.
-              }).then (() => {
-                taskRef
-                    .doc(item.id)
-                    .update({
-                        isCompleted: !oldState
-                    })
-            }).catch((error) => {
-                alert(error.message)
+            .doc(item.id)
+            .update({
+                isCompleted: !oldState
+            })
+            .catch((error) => {
+            alert(error.message)
             })
     }
     return(
@@ -117,9 +113,8 @@ const Home = () => {
                             <View style={styles.innerContainer}>
                                 {/* if there is alarm */}
                                 {item.alarmIdentifier != "NULL"? 
-                                    <Text style={check ?styles.itemText:styles.TextDone}>
+                                    <Text>
                                         Alarm set: {item.notificationDate}
-                    
                                     </Text>
                                     // else dont show alarm text
                                 :   null }
@@ -148,29 +143,6 @@ const Home = () => {
 
 export default Home
 
-// export const Task = (props) => {
-//     const [check,setCheck] = useState(true);
-//     const CheckWork =()=>{
-//         check ? setCheck(false) : setCheck(true)
-//     }
-
-//     return(
-//         <Pressable onPress={CheckWork}>
-//         <View style={styles.innerContainer}>
-//             {props.alarmIdentifier != "NULL"? 
-//                 <><Text>
-//                     Alarm: {props.notificationDate}
-//                 </Text>
-//                 <Text style={check ?styles.itemText:styles.TextDone}>   
-//                     {props.heading[0].toUpperCase() + props.heading.slice(1)}
-//                 </Text></>
-//             :   <Text style={check ?styles.itemText:styles.TextDone}>
-//                     {props.heading[0].toUpperCase() + props.heading.slice(1)}
-//                 </Text> }
-//         </View>
-//         </Pressable>
-//     )
-// }
 const styles = StyleSheet.create({
     container: {
         backgroundColor:'#e5e5e5',
