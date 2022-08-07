@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { MainStackNavigator, RewardStackNavigator, RecurringStackNavigator } from "./StackNavigator";
+import { MainStackNavigator, RewardStackNavigator, RecurringStackNavigator, CalendarNavigator } from "./StackNavigator";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -39,6 +39,14 @@ const BottomTabNavigator = () => {
                 ),
               }}
             component={RewardStackNavigator} />
+        <Tab.Screen 
+            name="Calendar" 
+            options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons name="calendar" color={color} size={size} />
+                ),
+              }}
+            component={CalendarNavigator} />
       </Tab.Navigator>
     );
   };

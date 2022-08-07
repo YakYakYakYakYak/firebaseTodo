@@ -14,6 +14,8 @@ import TimePickerApp from "../Screens/TimePicker";
 
 import AddReward from '../Screens/AddReward';
 
+import CalendarApp from '../Screens/Calendar';
+
 
 import { Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -109,4 +111,25 @@ const RecurringStackNavigator = () => {
     );
 }
 
-export { MainStackNavigator, RewardStackNavigator, RecurringStackNavigator };
+const CalendarNavigator = () => {
+  const navigation = useNavigation();
+
+  return (
+    <Stack.Navigator 
+      screenOptions={{
+        header: () => (
+          <Button
+            onPress={() => navigation.navigate('Calendar', {screen: 'CalendarHome'})}
+            title="Calendar"
+            color="#F29913"
+          />
+        ),}}>
+      <Stack.Screen
+        name='CalendarHome'
+        component={CalendarApp}
+      />
+    </Stack.Navigator>
+    );
+}
+
+export { MainStackNavigator, RewardStackNavigator, RecurringStackNavigator, CalendarNavigator };

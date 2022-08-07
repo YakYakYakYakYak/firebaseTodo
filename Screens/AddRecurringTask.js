@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import * as Alarm from './Alarm.js';
 import TimePickerApp from './TimePicker.js';
 import SwitchSelector from 'react-native-switch-selector';
+import moment from 'moment';
 
 // add a task
 export default function RecurringTask() {
@@ -19,6 +20,12 @@ export default function RecurringTask() {
     const [hoursMins, setHoursMins] = useState(' ');
     const [pointsAwarded, setPointsAwarded] = useState(1); // points awarded per completion of this recurring task
     var daysArr = [];
+    const [finalDaysArr, setFinalDaysArr] = useState([])
+
+    //stored date
+    let date = Date.now();
+    const currentDateString = moment(new Date(date)).format('MM/DD/YYYY')
+    //console.log(currentDateString)
 
     //switchselector options
     const options = [
@@ -60,6 +67,9 @@ export default function RecurringTask() {
                 alarmIdentifier: identifier,
                 notificationTime: hoursMins,
                 pointsAwarded: pointsAwarded,
+                isCompleted: false,
+                storedDate: currentDateString,
+                daysToRepeat: finalDaysArr,
             };
             RecurringTaskRef
                 .add(data)
@@ -132,6 +142,7 @@ export default function RecurringTask() {
         // console.log(scheduledNotificationDate)
         // console.log(daysArr+' daysArr Before')
         if(userInput && userInput.length > 0) {
+           
             //get timestamp
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             console.log(identifier+' before')
@@ -158,7 +169,9 @@ export default function RecurringTask() {
             }
             setHoursMins(time);
             //set alarm
-                Alarm.scheduleRecurringNotification(daysArr, parseInt(arr[0]), parseInt(arr[1]), userInput, {setIdentifier});           
+                Alarm.scheduleRecurringNotification(daysArr, parseInt(arr[0]), parseInt(arr[1]), userInput, {setIdentifier});
+            setFinalDaysArr(daysArr)
+
         }
     }
     return (

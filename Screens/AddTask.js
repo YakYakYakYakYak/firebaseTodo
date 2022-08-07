@@ -22,6 +22,18 @@ export default function AdHocTask() {
     const [identifier, setIdentifier] = useState(' ');
     const [scheduledDate, setScheduledDate] = useState(' ');
 
+    const [YYMMDD, setYYMMDD] = useState(0);
+    const [tempMonth, setTempMonth] = useState(0);
+
+    useEffect(() => {
+        var temp = 0
+        console.log(scheduledNotificationDate)
+        let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
+        temp = parseInt(arr[1]) + 1
+        setTempMonth(temp)
+        setYYMMDD((arr[0]+'/' + temp + '/'+arr[2]))
+    },[scheduledNotificationDate]);
+
     //when alarm identifier changes, send data to be stored on database.
     useEffect(() => {
         // if task has scheduled notification
@@ -33,6 +45,7 @@ export default function AdHocTask() {
                 isCompleted: false,
                 alarmIdentifier: identifier,
                 notificationDate: scheduledDate,
+                YYMMDD: YYMMDD,
             };
             taskRef
                 .add(data)
@@ -96,7 +109,7 @@ export default function AdHocTask() {
             let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
             console.log(arr)
             //logic to configure notificationTime to be stored and displayed to users.
-            tempScheduledDate += (arr[2]+'/'+arr[1]+'/'+arr[0]+'/')
+            tempScheduledDate += (arr[2]+'/'+tempMonth+'/'+arr[0]+'/')
             if(parseInt(arr[3]) < 10) {
                 tempScheduledDate += '0'
             }
