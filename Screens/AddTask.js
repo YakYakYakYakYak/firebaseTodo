@@ -26,12 +26,21 @@ export default function AdHocTask() {
     const [tempMonth, setTempMonth] = useState(0);
 
     useEffect(() => {
-        var temp = 0
+        var tempM = 0 //temp Month
+        var tempD = 0 // temp Day
         console.log(scheduledNotificationDate)
         let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
-        temp = parseInt(arr[1]) + 1
-        setTempMonth(temp)
-        setYYMMDD((arr[0]+'/' + temp + '/'+arr[2]))
+        tempM = parseInt(arr[1]) + 1
+        setTempMonth(tempM)
+        //add 0 infront if number < 10
+        if(tempM < 10) {
+            tempM = ('0' + tempM).slice(-2)
+        }
+        tempD = parseInt(arr[2])
+        if(tempD < 10) {
+            tempD = ('0' + tempD).slice(-2)
+        }
+        setYYMMDD((arr[0]+'-' + tempM + '-'+tempD))
     },[scheduledNotificationDate]);
 
     //when alarm identifier changes, send data to be stored on database.
@@ -46,6 +55,8 @@ export default function AdHocTask() {
                 alarmIdentifier: identifier,
                 notificationDate: scheduledDate,
                 YYMMDD: YYMMDD,
+                dotColor: '#F29913',
+                marked: true
             };
             taskRef
                 .add(data)
