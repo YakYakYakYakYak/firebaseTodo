@@ -4,7 +4,7 @@ import { firebase } from '../config'
 import { useNavigation } from '@react-navigation/native'
 
 const Detail = ({route}) => {
-        const taskRef = firebase.firestore().collection('tasks');
+    const taskRef = firebase.firestore().collection('tasks');
     const [textHeading, onChangeHeadingText] = useState(route.params.item.name);
     const navigation = useNavigation();
 

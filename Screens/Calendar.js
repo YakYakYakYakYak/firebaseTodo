@@ -2,14 +2,10 @@ import { Text, View, StyleSheet, Pressable, Modal } from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import React, { useState, useEffect } from 'react'
 import { firebase } from '../config';
-
-
-import { FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function CalendarApp() {
-  
+
 const [tasks, setTasks] = useState([]);
 const taskRef = firebase.firestore().collection('tasks');
 
@@ -53,6 +49,31 @@ useEffect(() => {
   return () => { isMounted = false }; // cleanup toggles value, if unmounted
 }, [])
 
+  //function to filter out tasks that do not match the users selected date.
+  function filterTasks(selectedDate) {
+    let tempFilteredTasks = [];
+    for(var i = 0;i < tasks.length; i++) {
+      if(tasks[i].YYMMDD == selectedDate) {
+        tempFilteredTasks.push(tasks[i])
+      }
+      setFilteredTasks(tempFilteredTasks)
+    }
+  }
+
+  //after user selects a date, filter the tasks to display only the tasks for the selected date.
+  useEffect(() => {
+    if(selectedDate != '-') {
+      filterTasks(selectedDate)
+    }
+  }, [selectedDate])
+
+  //then, set the modal to visible.
+  useEffect(() => {
+    if(filteredTasks.length > 0) {
+      setModalVisible(true)
+    }
+  }, [filteredTasks])
+
   //Mapping key to tasks to create objects for displaying marked scheduled notifications dates in the calendar.
   let taskObjects = {};
 
@@ -63,11 +84,11 @@ useEffect(() => {
     };
   });
 
-  //map filtered tasks to components for displaying in the modal task view.
+//map filtered tasks to components for displaying in the modal view.
 const TasksComp = (props) => {
   const tasksComp = props.filteredTasksArr.map(task =>
     <View style={styles.container} key={task.id}>
-<Pressable onPress={() => {console.log('hello')}}>
+<Pressable onPress={() => console.log('hello')}>
   <View>
   <Text style={styles.texter}>{task.heading}</Text>
   </View>
@@ -87,36 +108,19 @@ const TasksComp = (props) => {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
+              <Icon style={{
+                position: 'absolute',
+                right: 5,
+                top: 5,
+          }} name="close-circle-outline" size={30} color="red"onPress={() => setModalVisible(!modalVisible)}/>
                 <>{tasksComp}</>                  
-                  <Icon name="close-circle-outline" size={30} color="red"onPress={() => setModalVisible(!modalVisible)}/>
+                  
               </View>
             </View>
           </Modal>
     </View>
   )
 }
-//function to filter out tasks that do not match the users selected date.
-function filterTasks(selectedDate) {
-  let tempFilteredTasks = [];
-  for(var i = 0;i < tasks.length; i++) {
-    if(tasks[i].YYMMDD == selectedDate) {
-      tempFilteredTasks.push(tasks[i])
-    }
-    setFilteredTasks(tempFilteredTasks)
-  }
-}
-//after user selects a date, filter the tasks to display only the tasks for the selected date.
-useEffect(() => {
-  if(selectedDate != '-') {
-    filterTasks(selectedDate)
-  }
-}, [selectedDate])
-//then, set the modal to visible.
-useEffect(() => {
-  if(filteredTasks.length > 0) {
-    setModalVisible(true)
-  }
-}, [filteredTasks])
 
   return (
       
@@ -135,8 +139,9 @@ useEffect(() => {
 
   const styles = StyleSheet.create({
     container: {
-      marginRight: 60,
+      marginRight: 30,
       marginLeft: 0,
+      marginTop: 5,
       paddingHorizontal: 10,
       paddingVertical: 5,
       backgroundColor: '#F3F3F3',

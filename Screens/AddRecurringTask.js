@@ -129,10 +129,17 @@ export default function RecurringTask() {
 
     // add a task
     const addRecurringTask = () => {
+        //check if user has given the task a name
+        if(userInput == '') {
+            alert('Please enter a name for the task')
+            return;
+        }
+        //check if user has given the task a time to repeat
         if(scheduledNotificationDate == '42') {
             alert('Please pick a time for the alarm to repeat')
             return;
         }
+        //check if user has given the task a day to repeat
         if(daysArr.length === 0) {
             alert('Please pick the days you want the alarm to repeat')
             return;

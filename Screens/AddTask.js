@@ -94,6 +94,10 @@ export default function AdHocTask() {
 
     // add a task
     const addTask = () => {
+        if(userInput == '') {
+            alert('Please enter a name for the task.')
+            return;
+        }
         var tempScheduledDate = ''
         //check if there is a valid user input
         console.log(alarmInitiated+' starting of addtask')
@@ -120,7 +124,7 @@ export default function AdHocTask() {
             let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
             console.log(arr)
             //logic to configure notificationTime to be stored and displayed to users.
-            tempScheduledDate += (arr[2]+'/'+tempMonth+'/'+arr[0]+'/')
+            tempScheduledDate += (arr[2]+'/'+tempMonth+'/'+arr[0]+' - ')
             if(parseInt(arr[3]) < 10) {
                 tempScheduledDate += '0'
             }

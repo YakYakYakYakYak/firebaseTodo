@@ -64,11 +64,10 @@ const Rewards = () => {
     }
     return(
         
-        <View style={{flex:1, marginTop:50}}>
-            <View>
-                <Text>
-                    {points}
-                </Text>
+        <View style={{flex:1}}>
+            <View style={styles.centered}>
+                <Text style={styles.title}>Reward Points:</Text>
+                <Text style={styles.subtitle}>{points}</Text>
             </View>
             <FlatList
                 data={tasks}
@@ -156,7 +155,20 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontSize: 20,
         marginLeft:14,
-    }
+    },
+    //reward points
+    centered: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      title: {
+        fontSize: 18,
+      },
+      subtitle: {
+        fontSize: 50,
+        color: "#F29913",
+      },
     
 })
 
