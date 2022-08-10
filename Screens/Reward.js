@@ -2,15 +2,12 @@ import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard
 import React, { useState, useEffect } from 'react'
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 // import { FAB, Portal, Provider } from 'react-native-paper';
 import MultiButton from './multiButton';
 
 const Rewards = () => {
     const [tasks, setTasks] = useState([]);
     const rewardRef = firebase.firestore().collection('rewards');
-    const [userInput, setUserInput] = useState('');
-    const navigation = useNavigation();
 
     //accumulated points variables
     var [points, setPoints] = useState([]);
@@ -21,22 +18,24 @@ const Rewards = () => {
     useEffect(() => {
         let isMounted = true;               // note mutable flag
         if (isMounted) { //conditional check
-          rewardRef.orderBy('timeOfCreation', 'desc')
+          rewardRef.orderBy('pointsRequired')
             .onSnapshot(
                 querySnapshot => {
                     const tasks = []
                     querySnapshot.forEach((doc) => {
                         const {heading} = doc.data()
+                        const {pointsRequired} = doc.data()
                         tasks.push({
                             id: doc.id,
                             heading,
+                            pointsRequired
                         })
                     })
                     setTasks(tasks)
                 }
             )
         //fetch total accumulated points
-        pointsRef.orderBy('totalPoints', 'desc')
+        pointsRef.orderBy('totalPoints')
         .onSnapshot(
             querySnapshot => {
                 var points = 0
@@ -69,31 +68,60 @@ const Rewards = () => {
                 <Text style={styles.title}>Reward Points:</Text>
                 <Text style={styles.subtitle}>{points}</Text>
             </View>
+            <View style={{flex:20}}>
             <FlatList
+                style={{marginTop:10}}
                 data={tasks}
                 numColumns={1}
                 renderItem={({item}) => (
                     <View>
-                        <Pressable
-                            style={styles.container}
-                            // navigate to update task page.
-                            onPress={() => console.log('tap reward')}
-                        >
-                            <FontAwesome 
-                                name='trash-o'
-                                color='red'
-                                onPress={() => deleteTask(item)}
-                                style={styles.todoIcon}
-                            />
-                            <View style={styles.innerContainer}>
-                                <Text style={styles.itemHeading}>
-                                    {item.heading[0].toUpperCase() + item.heading.slice(1)}                               
-                                </Text>
-                            </View>
-                        </Pressable>
+                        {/* user accumulated points to redeem item, */}
+                        {points >= item.pointsRequired? 
+                                     <Pressable
+                                     style={styles.rewardReached}
+                                     // navigate to update task page.
+                                     onPress={() => console.log('tap reward')}
+                                     >
+                                     <FontAwesome 
+                                         name='trash-o'
+                                         color='black'
+                                         onPress={() => deleteTask(item)}
+                                         style={styles.todoIcon}
+                                     />
+                                     
+                                     <View style={styles.innerContainer}>
+                                         <Text style={styles.itemHeading}>
+                                             {item.heading[0].toUpperCase() + item.heading.slice(1)}
+                                             {item.pointsRequired}                               
+                                         </Text>
+                                     </View>
+                                 </Pressable>
+                                //  else render without green background
+                                :   
+                                <Pressable
+                                style={styles.container}
+                                // navigate to update task page.
+                                onPress={() => console.log('tap reward')}
+                                >
+                                <FontAwesome 
+                                    name='trash-o'
+                                    color='black'
+                                    onPress={() => deleteTask(item)}
+                                    style={styles.todoIcon}
+                                />
+                                
+                                <View style={styles.innerContainer}>
+                                    <Text style={styles.itemHeading}>
+                                        {item.heading[0].toUpperCase() + item.heading.slice(1)}
+                                        {item.pointsRequired}                               
+                                    </Text>
+                                </View>
+                            </Pressable>
+                             }
                     </View>
                 )}
             />
+            </View>
             {/* FAB Plus Button */}
             <MultiButton/>
         </View>
@@ -106,6 +134,15 @@ export default Rewards
 const styles = StyleSheet.create({
     container: {
         backgroundColor:'#e5e5e5',
+        padding:15,
+        borderRadius:15,
+        margin:5,
+        marginHorizontal:10,
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    rewardReached: {
+        backgroundColor:'#0de065',
         padding:15,
         borderRadius:15,
         margin:5,
@@ -130,15 +167,6 @@ const styles = StyleSheet.create({
         marginRight:10,
         marginTop:100,
     },
-    input: {
-        height:48,
-        borderRadius:5,
-        overflow:'hidden',
-        backgroundColor:'white',
-        paddingLeft:16,
-        flex:1,
-        marginRight:5,
-    },
     button: {
         height:47,
         borderRadius:5,
@@ -158,7 +186,6 @@ const styles = StyleSheet.create({
     },
     //reward points
     centered: {
-        flex: 1,
         justifyContent: "center",
         alignItems: "center",
       },
@@ -171,16 +198,3 @@ const styles = StyleSheet.create({
       },
     
 })
-
-
-
-//old
-// import { Text, View } from 'react-native';
-
-// export default function Rewards() {
-//     return (
-//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//         <Text>Work in progress!</Text>
-//       </View>
-//     );
-//   }
