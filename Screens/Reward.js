@@ -86,7 +86,7 @@ const Rewards = () => {
                                          name='trash-o'
                                          color='black'
                                          onPress={() => deleteTask(item)}
-                                         style={styles.todoIcon}
+                                         style={styles.trashIcon}
                                      />
                                      
                                      <View style={styles.innerContainer}>
@@ -95,6 +95,7 @@ const Rewards = () => {
                                              {item.pointsRequired}                               
                                          </Text>
                                      </View>
+                                     
                                  </Pressable>
                                 //  else render without green background
                                 :   
@@ -107,10 +108,13 @@ const Rewards = () => {
                                     name='trash-o'
                                     color='black'
                                     onPress={() => deleteTask(item)}
-                                    style={styles.todoIcon}
+                                    style={styles.trashIcon}
                                 />
-                                
                                 <View style={styles.innerContainer}>
+                                    <View style={{ flexDirection: "row" }}>
+                                        <Text style={{fontWeight: 'bold'}}>Points required: </Text>
+                                        <Text style={{fontWeight: 'bold', color: 'red'}}>{item.pointsRequired}</Text>
+                                    </View>
                                     <Text style={styles.itemHeading}>
                                         {item.heading[0].toUpperCase() + item.heading.slice(1)}
                                         {item.pointsRequired}                               
@@ -151,7 +155,6 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     innerContainer: {
-        alignItems:'center',
         flexDirection:'column',
         marginLeft:45,
     },
@@ -160,26 +163,7 @@ const styles = StyleSheet.create({
         fontSize:18,
         marginRight:22,
     },
-    formContainer: {
-        flexDirection:'row',
-        height:80,
-        marginLeft:10,
-        marginRight:10,
-        marginTop:100,
-    },
-    button: {
-        height:47,
-        borderRadius:5,
-        backgroundColor:'#788eec',
-        width:80,
-        alignItems:'center',
-        justifyContent:'center',
-    },
-    buttonText: {
-        color:'white',
-        fontSize:20
-    },
-    todoIcon: {
+    trashIcon: {
         marginTop: 5,
         fontSize: 20,
         marginLeft:14,
@@ -190,11 +174,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
       },
       title: {
+        marginTop: 25,
+        fontWeight: 'bold',
         fontSize: 18,
       },
       subtitle: {
         fontSize: 50,
+        fontWeight: 'bold',
         color: "#F29913",
+        textDecorationLine: 'underline',
       },
     
 })

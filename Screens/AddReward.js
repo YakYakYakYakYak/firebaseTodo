@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         color:'white',
         fontSize:20
     },
-    todoIcon: {
+    trashIcon: {
         marginTop: 5,
         fontSize: 20,
         marginLeft:14,

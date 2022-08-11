@@ -102,7 +102,7 @@ const Home = () => {
                                 name='trash-o'
                                 color='black'
                                 onPress={() => deleteTask(item)}
-                                style={styles.todoIcon}
+                                style={styles.trashIcon}
                             />
                             <View style={styles.innerContainer}>
                                 {/* if there is alarm */}
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
         color:'white',
         fontSize:20
     },
-    todoIcon: {
+    trashIcon: {
         marginTop: 5,
         fontSize: 20,
         marginLeft:14,
