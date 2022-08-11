@@ -12,11 +12,12 @@ const BottomTabNavigator = () => {
       <Tab.Navigator
         screenOptions={{
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: '#F29913',
       }}
       >
         <Tab.Screen 
-            name="Home" 
+            name="Ad-Hoc Tasks" 
             options={{
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons name="clipboard-list" color={color} size={size} />
@@ -24,7 +25,7 @@ const BottomTabNavigator = () => {
               }}
             component={MainStackNavigator} />
         <Tab.Screen 
-            name="RecurringHome" 
+            name="Recurring Tasks" 
             options={{
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons name="reload" color={color} size={size} />

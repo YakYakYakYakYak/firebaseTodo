@@ -29,7 +29,7 @@ const MainStackNavigator = () => {
           screenOptions={{
             header: () => (
               <Button
-                onPress={() => navigation.navigate('Home', {screen: 'HomePage'})}
+                onPress={() => navigation.navigate('Ad-Hoc Tasks', {screen: 'HomePage'})}
                 title="Ad-Hoc Tasks"
                 color="#F29913"
               />
@@ -86,7 +86,7 @@ const RecurringStackNavigator = () => {
       screenOptions={{
         header: () => (
           <Button
-            onPress={() => navigation.navigate('RecurringHome', {screen: 'RecurringHomePage'})}
+            onPress={() => navigation.navigate('Recurring Tasks', {screen: 'RecurringHomePage'})}
             title="Recurring Tasks"
             color="#F29913"
           />

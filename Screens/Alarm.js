@@ -1,6 +1,6 @@
 import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View, Button, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -74,9 +74,7 @@ export async function scheduleRecurringNotification(dayArr, Hour, Minute, userIn
     })
     finale.push(newIdentifier)
   }
-    //setIdentifier(identifier)
     setIdentifier(finale);
-    //setIdentifier(identifier => [...identifier, newIdentifier]);
   }
 
 export async function registerForPushNotificationsAsync() {

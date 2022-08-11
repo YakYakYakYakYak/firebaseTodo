@@ -4,15 +4,6 @@ import React, { useState, useEffect } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card } from 'react-native-paper';
 import { firebase } from '../config';
-// var arr=[]
-// var obj={}
-// obj = {
-//   name:'jeremy'
-// }
-// arr.push(obj);    
-
-// console.log(arr)
-// console.log(obj)
 
 timeToString = (time) => {
   const date = new Date(time);

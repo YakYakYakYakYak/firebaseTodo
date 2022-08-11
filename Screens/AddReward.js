@@ -1,37 +1,38 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, Switch } from 'react-native'
 import { firebase } from '../config';
 import React, { useState } from 'react'
-
 import SwitchSelector from 'react-native-switch-selector';
 
 // add a task
 export default function AdHocTask() {
     const rewardRef = firebase.firestore().collection('rewards');
     const [userInput, setUserInput] = useState('');
-    const [pointsRequired, setPointsRequired] = useState(1);
-
-
-    //switchselector options
-    const options = [
-        { label: '1pt', value: '1' },
-        { label: '2pt', value: '2' },
-        { label: '3pt', value: '3' }
-    ];
+    const [userInputPoints, setUserInputPoints] = useState('');
 
     const addReward = () => {
-        //check if there is a current todo
+        //convert from stirng to int, to store on database as number for comparison in Reward.js
+        let  intUserInputPoints= parseInt(userInputPoints)
+        if(userInput == '') {
+            alert('Please enter a name for the reward.')
+            return;
+        }
+        if(userInputPoints == '') {
+            alert('Please enter the points required for the reward.')
+            return;
+        }
         if(userInput && userInput.length > 0) {
             //get timestamp
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             const data = {
                 heading: userInput,
                 timeOfCreation: timestamp,
-                pointsRequired: pointsRequired,
+                pointsRequired: intUserInputPoints,
             };
             rewardRef
                 .add(data)
                 .then(() => {
                     setUserInput('');
+                    setUserInputPoints('');
                     // release the keyboard
                     Keyboard.dismiss();
                 })
@@ -56,23 +57,20 @@ export default function AdHocTask() {
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
             </View>
-            <Text>Set Points required to achieve this reward</Text>
-            <SwitchSelector
-                initial={0}
-                onPress={value => setPointsRequired(value)}
-                textColor={'#F29913'}
-                selectedColor={'white'}
-                buttonColor={'#F29913'}
-                borderColor={'#F29913'}
-                hasPadding
-                options={[
-                    { label: "1pt", value: 1 },
-                    { label: "2pt", value: 2 },
-                    { label: "3pt", value: 3 } 
-                ]}
-                testID="gender-switch-selector"
-                accessibilityLabel="gender-switch-selector"
-            />
+            <View style={styles.formContainerNumber}>
+                <TextInput
+                    style={styles.input}
+                    placeholder='Points'
+                    placeholderTextColor='#aaaaaa'
+                    onChangeText={(pointsRequired) => setUserInputPoints(pointsRequired.replace(/[^0-9]/g, ''))}
+                    value={userInputPoints}
+                    underlineColorAndroid='transparent'
+                    autoCapitalize='none'
+                    keyboardType='numeric'
+                />
+            </View>
+            
+
 </View>
     );
 }
@@ -103,6 +101,12 @@ const styles = StyleSheet.create({
         marginLeft:10,
         marginRight:10,
         marginTop:100,
+    },
+    formContainerNumber: {
+        flexDirection:'row',
+        height:80,
+        marginLeft:10,
+        marginRight:300,
     },
     input: {
         height:48,

@@ -105,12 +105,7 @@ export default function AdHocTask() {
             //get timestamp
             const timestamp = firebase.firestore.FieldValue.serverTimestamp();
             console.log(identifier+'before')
-            // //set alarm
-            // let arr = scheduledNotificationDate.split('/')//split scheduledNotificationDate to input to schedulePushNotification to set alarm
-            // console.log(arr)
-            // Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4], userInput, {setIdentifier}); //year, month, date, hour, mins, fn to grab alarm identifier key
-            // console.log(scheduledNotificationDate+' scheduledNotificationDate test')
-
+            
             setUser(userInput);
             setTimeStamps(timestamp);
             console.log(alarmInitiated+ 'before in addtask')
@@ -172,9 +167,6 @@ export default function AdHocTask() {
             {isEnabled == true ? <DateTimePickerApp
                 setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
             /> : null}
-            {/* <DateTimePickerApp
-                setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
-            /> */}
 </View>
     );
 }

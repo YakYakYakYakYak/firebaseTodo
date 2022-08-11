@@ -1,6 +1,7 @@
 import { FAB, Portal, Provider } from 'react-native-paper';
 import * as React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { StyleSheet } from 'react-native'
 
 
 //FAB Plus Button
@@ -16,6 +17,7 @@ export default MultiButton= () => {
         <Provider>
             <Portal>
                 <FAB.Group
+                fabStyle = {styles.btnStyle} //https://stackoverflow.com/questions/68936790/how-to-change-background-color-of-fab-group-from-react-native-paper
                 open={open}
                 icon={open ? 'close' : 'plus'}
                 actions={[
@@ -29,12 +31,12 @@ export default MultiButton= () => {
                     {
                     icon: 'reload',
                     label: 'Recurring Task',
-                    onPress: () => navigation.navigate('RecurringHome', {screen: 'AddRecurringTask'}),
+                    onPress: () => navigation.navigate('Recurring Tasks', {screen: 'AddRecurringTask'}),
                     },
                     {
                     icon: 'lead-pencil',
                     label: 'Ad-Hoc Task',
-                    onPress: () => navigation.navigate('Home', {screen: 'AddTask'}),
+                    onPress: () => navigation.navigate('Ad-Hoc Tasks', {screen: 'AddTask'}),
                     },
                 ]}
                 onStateChange={onStateChange}
@@ -49,3 +51,9 @@ export default MultiButton= () => {
         </Provider>
     )
 }
+
+const styles = StyleSheet.create({
+    btnStyle: {
+    backgroundColor:'#F29913'
+    }
+})

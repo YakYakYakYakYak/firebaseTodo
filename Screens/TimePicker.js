@@ -1,4 +1,4 @@
-import { Text, View, Button, Platform} from 'react-native';
+import { Text, View, Button, Platform, TouchableOpacity, StyleSheet} from 'react-native';
 import React, { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker'
 
@@ -18,7 +18,7 @@ export default function TimePickerApp({setScheduledNotificationDate}) {
         //https://docs.expo.dev/versions/latest/sdk/notifications/#getnotificationchannelgroupsasync-promisenotificationchannelgroup
         //Note: Weekdays are specified with a number from 1 through 7, with 1 indicating Sunday.
         console.log(parseInt(tempDate.getDay() + 1)); //convert to int, to add 1 as Expo notifications date range starts from Sunday(1) - Saturday(7) while getDay starts from 0-6.
-        let fTime = 'Hours' + tempDate.getHours() + ' | Minutes: ' + tempDate.getMinutes();
+        let fTime = 'Hours: ' + tempDate.getHours() + ' | Minutes: ' + tempDate.getMinutes();
         
         let scheduledNotification = tempDate.getHours() + '/' + tempDate.getMinutes();
         
@@ -36,7 +36,9 @@ export default function TimePickerApp({setScheduledNotificationDate}) {
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text style = {{fontWeight: 'bold', fontSize:20}}>{text}</Text>
         <View style={{margin:20}}>
-            <Button title='TimePicker' onPress={() => showMode('time')}/>
+            <TouchableOpacity style={styles.dateTimePickerBtnStyle} onPress={() => showMode('time')}>
+                <Text style={styles.buttonText}>Select time to repeat</Text>
+            </TouchableOpacity>
         </View>
         {show && (
             <DateTimePicker
@@ -46,8 +48,24 @@ export default function TimePickerApp({setScheduledNotificationDate}) {
             is24Hour={true}
             display='default'
             onChange={onChange}
+            color={'red'}
             />
         )}
       </View>
     );
   }
+
+  const styles = StyleSheet.create({
+    dateTimePickerBtnStyle: {
+        height:50,
+        borderRadius:5,
+        backgroundColor:'#F29913',
+        width:200,
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    buttonText: {
+        color:'white',
+        fontSize:20
+    },
+})

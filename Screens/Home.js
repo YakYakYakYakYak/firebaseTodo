@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-// import { FAB, Portal, Provider } from 'react-native-paper';
 import * as Notifications from 'expo-notifications';
 import MultiButton from './multiButton';
 
@@ -13,10 +12,6 @@ const Home = () => {
     const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
     
-    const [check,setCheck] = useState(true);
-    const CheckWork =()=>{
-    check ? setCheck(false) : setCheck(true)
-    }
     // fetch or read the data from firestore
     useEffect(() => {
         let isMounted = true;               // note mutable flag
@@ -80,7 +75,6 @@ const Home = () => {
     const updateCompletion = (item) => {
         var oldState = item.isCompleted
         //get current state of isCompleted
-        
         taskRef
             .doc(item.id)
             .update({

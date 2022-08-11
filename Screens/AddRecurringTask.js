@@ -85,16 +85,6 @@ export default function RecurringTask() {
         //setIdentifier([]);
       }, [identifier]);
 
-    //   useEffect(() => {
-    //     // if task has scheduled notification
-    //     console.log(mondayIsEnabled+' monday')
-    //   }, [mondayIsEnabled]);
-
-    //   useEffect(() => {
-    //     // if task has scheduled notification
-    //     console.log(tuesdayIsEnabled+' tuesday')
-    //   }, [tuesdayIsEnabled]);
-
       const checkDays = () => {
         //setting array
         //https://docs.expo.dev/versions/latest/sdk/notifications/#getnotificationchannelgroupsasync-promisenotificationchannelgroup

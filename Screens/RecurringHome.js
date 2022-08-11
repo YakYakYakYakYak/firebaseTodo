@@ -1,9 +1,8 @@
-import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard, Pressable } from 'react-native'
+import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-// import { FAB, Portal, Provider } from 'react-native-paper';
 import * as Notifications from 'expo-notifications';
 import MultiButton from './multiButton';
 import moment from 'moment';
@@ -47,6 +46,7 @@ const RecurringHome = () => {
                         const {storedDate} = doc.data()
                         const {isCompleted} = doc.data()
                         const {pointsAwarded} = doc.data()
+                        const {daysToRepeat} = doc.data()
                         tasks.push({
                             id: doc.id,
                             heading,
@@ -54,6 +54,7 @@ const RecurringHome = () => {
                             storedDate,
                             isCompleted,
                             pointsAwarded,
+                            daysToRepeat
 
                         })
                     })
@@ -162,6 +163,67 @@ const RecurringHome = () => {
             })
         }
     }
+    const renderDays = (daysToRepeat, notificationTime) => {
+        let mon = false;
+        let tue = false;
+        let wed = false;
+        let thur = false;
+        let fri = false;
+        let sat = false;
+        let sun = false;
+
+        for(let i = 0;i < daysToRepeat.length;i++) {
+            if(daysToRepeat[i] == 2) {
+                mon = true;
+            }
+            if(daysToRepeat[i] == 3) {
+                tue = true;
+            }
+            if(daysToRepeat[i] == 4) {
+                wed = true;
+            }
+            if(daysToRepeat[i] == 5) {
+                thur = true;
+            }
+            if(daysToRepeat[i] == 6) {
+                fri = true;
+            }
+            if(daysToRepeat[i] == 7) {
+                sat = true;
+            }
+            if(daysToRepeat[i] == 1) {
+                sun = true;
+            }
+        }
+        return(
+    <View style={{flexDirection: 'row', alignItems: 'stretch', }}>
+        <Text style={{fontWeight: 'bold'}}>Repeats: </Text>
+        <View style={mon? styles.dayOn : styles.dayOff}>
+            <Text style={styles.dayText}>M</Text>
+        </View>
+        <View style={tue? styles.dayOn : styles.dayOff}>
+            <Text style={styles.dayText}>Tu</Text>
+        </View>
+        <View style={wed? styles.dayOn : styles.dayOff}>
+            <Text style={styles.dayText}>W</Text>
+        </View>
+        <View style={thur? styles.dayOn : styles.dayOff}>
+            <Text style={styles.dayText}>Th</Text>
+        </View>
+        <View style={fri? styles.dayOn : styles.dayOff}>
+            <Text style={styles.dayText}>F</Text>
+        </View>
+        <View style={sat? styles.dayOn : styles.dayOff}>
+            <Text style={styles.dayText}>Sa</Text>
+        </View>
+        <View style={sun? styles.dayOn : styles.dayOff}>
+            <Text style={styles.dayText}>Su</Text>
+        </View>
+        <Text style={{fontWeight: 'bold'}}> at: {notificationTime}</Text>
+    </View>
+        
+        )
+    }
     return(
         <View style={{flex:1, marginTop:50}}>
             <FlatList
@@ -191,9 +253,13 @@ const RecurringHome = () => {
                             style={styles.todoIcon}
                         />
                         <View style={styles.innerContainer}>
-                            <Text style={styles.itemHeading}>
-                                Repeats every: {item.notificationTime}
-                                {'\n'}
+                            {/* renders days orange if reoccuring, if not render them greyed out if not recurring on that day. */}
+                            {renderDays(item.daysToRepeat, item.notificationTime)}
+                            <View style={{ flexDirection: "row" }}>
+                                <Text style={{fontWeight: 'bold'}}>Points: </Text>
+                                <Text style={{fontWeight: 'bold', color: '#F29913'}}>{item.pointsAwarded}</Text>
+                            </View>
+                            <Text style={styles.itemHeading}>  
                                 {item.heading[0].toUpperCase() + item.heading.slice(1)}
                             </Text>
                         </View>
@@ -221,11 +287,11 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     innerContainer: {
-        alignItems:'center',
         flexDirection:'column',
         marginLeft:45,
     },
     itemHeading: {
+        flexWrap: 'wrap',
         fontWeight:'bold',
         fontSize:18,
         marginRight:22,
@@ -265,6 +331,32 @@ const styles = StyleSheet.create({
     },
     hidden: {
         display: 'none',
-    }
+    },
+    dayOn: {
+        width: 20,
+        height: 20,
+        backgroundColor:'#F29913',
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        justifyContent: 'center',
+        marginLeft: 1
+    },
+    dayOff: {
+        width: 20,
+        height: 20,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        justifyContent: 'center',
+        marginLeft: 1
+    },
+    dayText: {
+        fontSize: 10,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
     
 })
