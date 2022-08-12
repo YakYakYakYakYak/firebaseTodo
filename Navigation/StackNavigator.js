@@ -17,7 +17,7 @@ import AddReward from '../Screens/AddReward';
 import CalendarApp from '../Screens/Calendar';
 
 
-import { Button } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
@@ -26,14 +26,21 @@ const MainStackNavigator = () => {
   const navigation = useNavigation();
     return (
         <Stack.Navigator 
+          // screenOptions={{
+          //   header: () => (
+          //     <Button
+          //       onPress={() => navigation.navigate('Ad-Hoc Tasks', {screen: 'HomePage'})}
+          //       title="Ad-Hoc Tasks"
+          //       color="#F29913"
+          //     />
+          //   ),}}
           screenOptions={{
             header: () => (
-              <Button
-                onPress={() => navigation.navigate('Ad-Hoc Tasks', {screen: 'HomePage'})}
-                title="Ad-Hoc Tasks"
-                color="#F29913"
-              />
-            ),}}>
+              <TouchableOpacity style ={styles.headerBtn} onPress={() => navigation.navigate('Ad-Hoc Tasks', {screen: 'HomePage'})}>
+                <Text style={styles.headerText}>AD-HOC TASKS</Text>
+              </TouchableOpacity>
+            ),}}
+            >
           <Stack.Screen
             name='HomePage'
             component={Home}
@@ -59,13 +66,12 @@ const RewardStackNavigator = () => {
     return (
         <Stack.Navigator 
         screenOptions={{
-          header: () => (
-            <Button
-              onPress={() => navigation.navigate('Reward', {screen: 'RewardPage'})}
-              title="Rewards"
-              color="#F29913"
-            />
-          ),}}>
+            header: () => (
+              <TouchableOpacity style ={styles.headerBtn} onPress={() => navigation.navigate('Reward', {screen: 'RewardPage'})}>
+                <Text style={styles.headerText}>REWARDS</Text>
+              </TouchableOpacity>
+            ),}}
+        >
           <Stack.Screen
               name="RewardPage" 
               component={Reward}
@@ -83,14 +89,13 @@ const RecurringStackNavigator = () => {
 
   return (
     <Stack.Navigator 
-      screenOptions={{
-        header: () => (
-          <Button
-            onPress={() => navigation.navigate('Recurring Tasks', {screen: 'RecurringHomePage'})}
-            title="Recurring Tasks"
-            color="#F29913"
-          />
-        ),}}>
+          screenOptions={{
+            header: () => (
+              <TouchableOpacity style ={styles.headerBtn} onPress={() => navigation.navigate('Recurring Tasks', {screen: 'RecurringHomePage'})}>
+                <Text style={styles.headerText}>RECURRING TASKS</Text>
+              </TouchableOpacity>
+            ),}}
+    >
       <Stack.Screen
         name='RecurringHomePage'
         component={RecurringHome}
@@ -116,14 +121,13 @@ const CalendarNavigator = () => {
 
   return (
     <Stack.Navigator 
-      screenOptions={{
-        header: () => (
-          <Button
-            onPress={() => navigation.navigate('Calendar', {screen: 'CalendarHome'})}
-            title="Calendar"
-            color="#F29913"
-          />
-        ),}}>
+          screenOptions={{
+            header: () => (
+              <TouchableOpacity style ={styles.headerBtn} onPress={() => navigation.navigate('Calendar', {screen: 'CalendarHome'})}>
+                <Text style={styles.headerText}>CALENDAR</Text>
+              </TouchableOpacity>
+            ),}}
+    >
       <Stack.Screen
         name='CalendarHome'
         component={CalendarApp}
@@ -133,3 +137,17 @@ const CalendarNavigator = () => {
 }
 
 export { MainStackNavigator, RewardStackNavigator, RecurringStackNavigator, CalendarNavigator };
+
+const styles = StyleSheet.create({
+  headerBtn: {
+    backgroundColor: "#F29913",
+    height:50,
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+    marginTop: 'auto',
+  }
+})

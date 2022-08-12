@@ -1,7 +1,6 @@
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native'
 import BottomTabNavigator from "./Navigation/TabNavigator.js";
-import Alarm from './Screens/Alarm.js';
 
 // Nesting Navigation Documentation:
 // https://reactnavigation.org/docs/nesting-navigators/
@@ -10,7 +9,6 @@ import Alarm from './Screens/Alarm.js';
 export default function App() {
   return(
     <NavigationContainer>
-      {/* <Alarm/> */}
       <BottomTabNavigator />
     </NavigationContainer>
   )
