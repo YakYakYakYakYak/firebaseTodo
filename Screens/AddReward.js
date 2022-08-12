@@ -76,25 +76,6 @@ export default function AdHocTask() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor:'#e5e5e5',
-        padding:15,
-        borderRadius:15,
-        margin:5,
-        marginHorizontal:10,
-        flexDirection:'row',
-        alignItems:'center'
-    },
-    innerContainer: {
-        alignItems:'center',
-        flexDirection:'column',
-        marginLeft:45,
-    },
-    itemHeading: {
-        fontWeight:'bold',
-        fontSize:18,
-        marginRight:22,
-    },
     formContainer: {
         flexDirection:'row',
         height:80,
@@ -129,10 +110,4 @@ const styles = StyleSheet.create({
         color:'white',
         fontSize:20
     },
-    trashIcon: {
-        marginTop: 5,
-        fontSize: 20,
-        marginLeft:14,
-    }
-    
 })
