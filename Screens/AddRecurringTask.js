@@ -56,6 +56,11 @@ export default function RecurringTask() {
     const [sundayIsEnabled, setSundayIsEnabled] = useState(false);
     const toggleSundaySwitch = () => setSundayIsEnabled(previousState => !previousState);
 
+    useEffect(() => {
+        console.log(mondayIsEnabled)
+      }, [mondayIsEnabled]);
+
+
     //when alarm identifier changes, send data to be stored on database.
     useEffect(() => {
         // if task has scheduled notification
@@ -74,7 +79,15 @@ export default function RecurringTask() {
             RecurringTaskRef
                 .add(data)
                 .then(() => {
+                    //reset all inputs
                     setUserInput('');
+                    setMondayIsEnabled(false);
+                    setTuesdayIsEnabled(false);
+                    setWednesdayIsEnabled(false);
+                    setThursdayIsEnabled(false);
+                    setFridayIsEnabled(false);
+                    setSaturdayIsEnabled(false);
+                    setSundayIsEnabled(false);
                     // release the keyboard
                     Keyboard.dismiss();
                 })
@@ -192,59 +205,8 @@ export default function RecurringTask() {
                 >
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
-                <View>
-                <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={mondayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleMondaySwitch}
-                value={mondayIsEnabled}
-                />
-                <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={tuesdayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleTuesdaySwitch}
-                value={tuesdayIsEnabled}
-                />
-                <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={wednesdayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleWednesdaySwitch}
-                value={wednesdayIsEnabled}
-                />
-                <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={thursdayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleThursdaySwitch}
-                value={thursdayIsEnabled}
-                />
-                <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={fridayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleFridaySwitch}
-                value={fridayIsEnabled}
-                />
-                <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={saturdayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSaturdaySwitch}
-                value={saturdayIsEnabled}
-                />
-                <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={sundayIsEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSundaySwitch}
-                value={sundayIsEnabled}
-                />
-                </View>
             </View>
-            <Text>Set Points awarded per completion of this recurring task</Text>
+            <Text style={styles.lineText}>Set Points awarded per completion of this recurring task</Text>
             <SwitchSelector
                 initial={0}
                 onPress={value => setPointsAwarded(value)}
@@ -260,7 +222,74 @@ export default function RecurringTask() {
                 ]}
                 testID="gender-switch-selector"
                 accessibilityLabel="gender-switch-selector"
+                style={{marginTop:10}}
             />
+            <Text style={styles.lineText}>Select the days you want the task to repeat on.</Text>
+                <View style={{flexDirection: 'row', alignItems: 'stretch', marginTop:10}}>
+                    <TouchableOpacity 
+                        style={mondayIsEnabled? styles.dayOn : styles.dayOff} 
+                        value = {mondayIsEnabled} 
+                        onPress={() => {
+                        toggleMondaySwitch()
+                        }}>
+                        <Text style={styles.dayText}>Mo</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity 
+                        style={tuesdayIsEnabled? styles.dayOn : styles.dayOff} 
+                        value = {tuesdayIsEnabled} 
+                        onPress={() => {
+                        toggleTuesdaySwitch()
+                        }}>
+                        <Text style={styles.dayText}>Tu</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity 
+                        style={wednesdayIsEnabled? styles.dayOn : styles.dayOff} 
+                        value = {wednesdayIsEnabled} 
+                        onPress={() => {
+                        toggleWednesdaySwitch()
+                        }}>
+                        <Text style={styles.dayText}>We</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity 
+                        style={thursdayIsEnabled? styles.dayOn : styles.dayOff} 
+                        value = {thursdayIsEnabled} 
+                        onPress={() => {
+                        toggleThursdaySwitch()
+                        }}>
+                        <Text style={styles.dayText}>Th</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity 
+                        style={fridayIsEnabled? styles.dayOn : styles.dayOff} 
+                        value = {fridayIsEnabled} 
+                        onPress={() => {
+                        toggleFridaySwitch()
+                        }}>
+                        <Text style={styles.dayText}>Fr</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity 
+                        style={saturdayIsEnabled? styles.dayOn : styles.dayOff} 
+                        value = {saturdayIsEnabled} 
+                        onPress={() => {
+                        toggleSaturdaySwitch()
+                        }}>
+                        <Text style={styles.dayText}>Sa</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity 
+                        style={sundayIsEnabled? styles.dayOn : styles.dayOff} 
+                        value = {sundayIsEnabled} 
+                        onPress={() => {
+                        toggleSundaySwitch()
+                        }}>
+                        <Text style={styles.dayText}>Su</Text>
+                    </TouchableOpacity>
+                </View>
+
             <TimePickerApp
                 setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
             />
@@ -296,5 +325,38 @@ const styles = StyleSheet.create({
     buttonText: {
         color:'white',
         fontSize:20
-    }, 
+    },
+    dayOn: {
+        width: 50,
+        height: 50,
+        backgroundColor:'#F29913',
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        justifyContent: 'center',
+        marginLeft: 4,
+        marginRight:4
+    },
+    dayOff: {
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        justifyContent: 'center',
+        marginLeft: 4,
+        marginRight:4
+    },
+    dayText: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    lineText: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'underline',
+        marginTop: 10
+    }
 })

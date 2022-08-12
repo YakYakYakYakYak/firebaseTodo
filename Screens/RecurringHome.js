@@ -197,21 +197,21 @@ const RecurringHome = () => {
         }
         return(
     <View style={{flexDirection: 'row', alignItems: 'stretch', }}>
-        <Text style={{fontWeight: 'bold'}}>Repeats: </Text>
+        <Text style={{fontWeight: 'bold'}}>Repeats:</Text>
         <View style={mon? styles.dayOn : styles.dayOff}>
-            <Text style={styles.dayText}>M</Text>
+            <Text style={styles.dayText}>Mo</Text>
         </View>
         <View style={tue? styles.dayOn : styles.dayOff}>
             <Text style={styles.dayText}>Tu</Text>
         </View>
         <View style={wed? styles.dayOn : styles.dayOff}>
-            <Text style={styles.dayText}>W</Text>
+            <Text style={styles.dayText}>We</Text>
         </View>
         <View style={thur? styles.dayOn : styles.dayOff}>
             <Text style={styles.dayText}>Th</Text>
         </View>
         <View style={fri? styles.dayOn : styles.dayOff}>
-            <Text style={styles.dayText}>F</Text>
+            <Text style={styles.dayText}>Fr</Text>
         </View>
         <View style={sat? styles.dayOn : styles.dayOff}>
             <Text style={styles.dayText}>Sa</Text>
@@ -237,7 +237,6 @@ const RecurringHome = () => {
                         {/* https://stackoverflow.com/questions/30266831/hide-show-components-in-react-native */}
                         {/* if item has been marked as completed for the day, hide the container. */}
                         {item.isCompleted == true? 
-                    
                             null
                         //else, display the container
                         :    
@@ -305,7 +304,7 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
         backgroundColor:'#F29913',
-        borderRadius: 20,
+        borderRadius: 50,
         borderWidth: 1,
         borderColor: 'black',
         borderStyle: 'solid',
@@ -315,7 +314,7 @@ const styles = StyleSheet.create({
     dayOff: {
         width: 20,
         height: 20,
-        borderRadius: 20,
+        borderRadius: 50,
         borderWidth: 1,
         borderColor: 'black',
         borderStyle: 'solid',
