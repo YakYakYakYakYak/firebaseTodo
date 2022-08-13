@@ -107,7 +107,7 @@ const Home = () => {
                             <View style={styles.innerContainer}>
                                 {/* if there is alarm */}
                                 {item.alarmIdentifier != "NULL"? 
-                                    <Text>
+                                    <Text style = {styles.alarmSetText}>
                                         Alarm set: {item.notificationDate}
                                     </Text>
                                     // else dont show alarm text
@@ -160,14 +160,16 @@ const styles = StyleSheet.create({
     itemText: {
         fontWeight:'bold',
         fontSize:16,
-        marginLeft:10,
         // maxWidth: '75%'
     },
     TextDone:{
     fontWeight:'bold',
     fontSize:16,
-    marginLeft:10,
     textDecorationLine:'line-through',
     //maxWidth: '75%'
-    },  
+    },
+    alarmSetText: {
+    fontWeight:'bold',
+    textDecorationLine: 'underline',
+    }
 })

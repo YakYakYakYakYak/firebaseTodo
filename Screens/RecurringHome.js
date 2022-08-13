@@ -36,7 +36,7 @@ const RecurringHome = () => {
     useEffect(() => {
         let isMounted = true;               // note mutable flag
         if (isMounted) { //conditional check
-            RecurringTaskRef.orderBy('timeOfCreation', 'desc')
+            RecurringTaskRef.orderBy('notificationTimeInMins')
             .onSnapshot(
                 querySnapshot => {
                     const tasks = []

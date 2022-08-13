@@ -21,6 +21,7 @@ export default function RecurringTask() {
     const [pointsAwarded, setPointsAwarded] = useState(1); // points awarded per completion of this recurring task
     var daysArr = [];
     const [finalDaysArr, setFinalDaysArr] = useState([])
+    const [notificationTimeInMins, setNotificationTimeInMins] = useState(0);
 
     //stored date
     let date = Date.now();
@@ -75,6 +76,7 @@ export default function RecurringTask() {
                 isCompleted: false,
                 storedDate: currentDateString,
                 daysToRepeat: finalDaysArr,
+                notificationTimeInMins: notificationTimeInMins,
             };
             RecurringTaskRef
                 .add(data)
@@ -178,6 +180,11 @@ export default function RecurringTask() {
                 time +='PM'
             }
             setHoursMins(time);
+            //get notificationTimeInMins, for sorting in recurrHome.js, listing earliest notifications to latest notifications.
+            let tempNotificationTimeInMins = 0
+            tempNotificationTimeInMins = (parseInt(arr[0]) * 60) + parseInt(arr[1])
+            setNotificationTimeInMins(tempNotificationTimeInMins)
+
             //set alarm
                 Alarm.scheduleRecurringNotification(daysArr, parseInt(arr[0]), parseInt(arr[1]), userInput, {setIdentifier});
             setFinalDaysArr(daysArr)
