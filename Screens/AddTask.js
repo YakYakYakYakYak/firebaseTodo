@@ -25,6 +25,7 @@ export default function AdHocTask() {
     const [YYMMDD, setYYMMDD] = useState(0);
     const [tempMonth, setTempMonth] = useState(0);
     const [notificationTimeInMins, setNotificationTimeInMins] = useState(0);
+    const [dateObj, setDateObj] = useState({});
 
 
     //get YYMMDD and notificationTimeInMins for sorting and filtering when showing tasks in calendar AND 
@@ -66,7 +67,8 @@ export default function AdHocTask() {
                 notificationTimeInMins: notificationTimeInMins,
                 YYMMDD: YYMMDD,
                 dotColor: '#F29913',
-                marked: true
+                marked: true,
+                dateObj: dateObj
             };
             taskRef
                 .add(data)
@@ -144,6 +146,10 @@ export default function AdHocTask() {
                 tempScheduledDate += 'PM'
             }            
             setScheduledDate(tempScheduledDate);
+            //test date
+            let tempDate = new Date(arr[0], arr[1], arr[2], arr[3], arr[4], 0)
+            setDateObj(tempDate)
+
             Alarm.schedulePushNotification(arr[0], arr[1], arr[2], arr[3], arr[4], userInput, {setIdentifier}); //year, month, date, hour, mins, fn to grab alarm identifier key
             console.log(scheduledNotificationDate+' scheduledNotificationDate test')
             console.log(alarmInitiated+ 'before in if state')

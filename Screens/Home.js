@@ -16,7 +16,7 @@ const Home = () => {
     useEffect(() => {
         let isMounted = true;               // note mutable flag
         if (isMounted) { //conditional check
-            taskRef.orderBy('timeOfCreation', 'desc')
+            taskRef.orderBy('dateObj')
             .onSnapshot(
                 querySnapshot => {
                     const tasks = []
