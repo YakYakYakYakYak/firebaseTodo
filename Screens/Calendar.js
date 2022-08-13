@@ -18,7 +18,7 @@ const [filteredTasks, setFilteredTasks] = useState([]);
 useEffect(() => {
   let isMounted = true;               // note mutable flag
   if (isMounted) { //conditional check
-      taskRef.orderBy('timeOfCreation', 'desc')
+      taskRef.orderBy('notificationTimeInMins')
       .onSnapshot(
           querySnapshot => {
               const tasks = []
@@ -90,7 +90,8 @@ const TasksComp = (props) => {
     <View style={styles.container} key={task.id}>
 <Pressable onPress={() => console.log('hello')}>
   <View>
-  <Text style={styles.texter}>{task.heading}</Text>
+  <Text style={styles.notificationDateText}>{task.notificationDate.slice(-7)}:</Text>
+  <Text style={styles.headingText}>{task.heading}</Text>
   </View>
 </Pressable>
   
@@ -108,11 +109,12 @@ const TasksComp = (props) => {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
+                <Text style = {{fontWeight: 'bold', fontSize: 15, textDecorationLine:'underline', textAlign:'center'}}>{selectedDate}</Text>
               <Icon style={{
                 position: 'absolute',
                 right: 5,
                 top: 5,
-          }} name="close-circle-outline" size={30} color="red"onPress={() => setModalVisible(!modalVisible)}/>
+              }} name="close-circle-outline" size={30} color="red"onPress={() => setModalVisible(!modalVisible)}/>
                 <>{tasksComp}</>                  
                   
               </View>
@@ -168,7 +170,7 @@ const TasksComp = (props) => {
       shadowRadius: 4,
       elevation: 5
     },
-    texter: {
+    headingText: {
       color: '#000',
       fontSize: 15,
       lineHeight: 21,
@@ -177,5 +179,16 @@ const TasksComp = (props) => {
       flexShrink: 1,
       flexGrow: 0,
       alignSelf: 'flex-start'
+  },
+  notificationDateText: {
+    color: '#000',
+      fontSize: 15,
+      fontWeight: 'bold',
+      lineHeight: 21,
+      includeFontPadding: false,
+      overflow: 'hidden',
+      flexShrink: 1,
+      flexGrow: 0,
+      alignSelf: 'flex-start',
   }
 })

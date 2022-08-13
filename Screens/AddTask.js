@@ -24,8 +24,12 @@ export default function AdHocTask() {
 
     const [YYMMDD, setYYMMDD] = useState(0);
     const [tempMonth, setTempMonth] = useState(0);
+    const [notificationTimeInMins, setNotificationTimeInMins] = useState(0);
 
+
+    //get YYMMDD and notificationTimeInMins for sorting and filtering when showing tasks in calendar AND 
     useEffect(() => {
+        //get YYMMDD
         var tempM = 0 //temp Month
         var tempD = 0 // temp Day
         console.log(scheduledNotificationDate)
@@ -41,6 +45,11 @@ export default function AdHocTask() {
             tempD = ('0' + tempD).slice(-2)
         }
         setYYMMDD((arr[0]+'-' + tempM + '-'+tempD))
+        //get notificationTimeInMins
+        let tempNotificationTimeInMins = 0
+        tempNotificationTimeInMins = (parseInt(arr[3]) * 60) + parseInt(arr[4])
+        setNotificationTimeInMins(tempNotificationTimeInMins)
+
     },[scheduledNotificationDate]);
 
     //when alarm identifier changes, send data to be stored on database.
@@ -54,6 +63,7 @@ export default function AdHocTask() {
                 isCompleted: false,
                 alarmIdentifier: identifier,
                 notificationDate: scheduledDate,
+                notificationTimeInMins: notificationTimeInMins,
                 YYMMDD: YYMMDD,
                 dotColor: '#F29913',
                 marked: true
