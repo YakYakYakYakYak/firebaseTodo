@@ -69,8 +69,6 @@ export default function AdHocTask() {
                     keyboardType='numeric'
                 />
             </View>
-            
-
 </View>
     );
 }

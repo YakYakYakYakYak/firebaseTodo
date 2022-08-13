@@ -88,6 +88,7 @@ export default function AdHocTask() {
                 timeOfCreation: timeStamps,
                 isCompleted: false,
                 alarmIdentifier: identifier,
+                dateObj: dateObj,
             };
             taskRef
                 .add(data)
@@ -125,6 +126,8 @@ export default function AdHocTask() {
             if(!isEnabled) {
                 setIdentifier('NULL')
             }
+            let newDate = new Date(1995, 1, 1, 1, 1, 0)
+            setDateObj(newDate)
         }
         if(!alarmInitiated && isEnabled) {
             //set alarm

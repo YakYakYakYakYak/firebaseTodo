@@ -2,7 +2,6 @@ import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard
 import React, { useState, useEffect } from 'react'
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons';
-// import { FAB, Portal, Provider } from 'react-native-paper';
 import MultiButton from './multiButton';
 
 const Rewards = () => {
@@ -92,7 +91,6 @@ const Rewards = () => {
                                      <View style={styles.innerContainer}>
                                          <Text style={styles.itemHeading}>
                                              {item.heading[0].toUpperCase() + item.heading.slice(1)}
-                                             {item.pointsRequired}                               
                                          </Text>
                                      </View>
                                      
@@ -117,7 +115,6 @@ const Rewards = () => {
                                     </View>
                                     <Text style={styles.itemHeading}>
                                         {item.heading[0].toUpperCase() + item.heading.slice(1)}
-                                        {item.pointsRequired}                               
                                     </Text>
                                 </View>
                             </Pressable>

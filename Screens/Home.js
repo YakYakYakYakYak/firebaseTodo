@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Keyboard, Pressable } from 'react-native'
+import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { firebase } from '../config';
 import { FontAwesome } from '@expo/vector-icons';
@@ -9,7 +9,6 @@ import MultiButton from './multiButton';
 const Home = () => {
     const [tasks, setTasks] = useState([]);
     const taskRef = firebase.firestore().collection('tasks');
-    const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
     
     // fetch or read the data from firestore
@@ -148,7 +147,6 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     innerContainer: {
-        // alignItems:'center',
         flexDirection:'column',
         marginLeft:45,
     },
@@ -160,13 +158,11 @@ const styles = StyleSheet.create({
     itemText: {
         fontWeight:'bold',
         fontSize:16,
-        // maxWidth: '75%'
     },
     TextDone:{
     fontWeight:'bold',
     fontSize:16,
     textDecorationLine:'line-through',
-    //maxWidth: '75%'
     },
     alarmSetText: {
     fontWeight:'bold',

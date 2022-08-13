@@ -4,7 +4,7 @@ import { firebase } from '../config'
 import { useNavigation } from '@react-navigation/native'
 
 const DetailRecurring = ({route}) => {
-        const RecurringTaskRef = firebase.firestore().collection('recurringTasks');
+    const RecurringTaskRef = firebase.firestore().collection('recurringTasks');
     const [textHeading, onChangeHeadingText] = useState(route.params.item.name);
     const navigation = useNavigation();
 

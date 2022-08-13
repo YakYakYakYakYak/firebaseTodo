@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, Switch } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard } from 'react-native'
 import { firebase } from '../config';
 import React, { useState, useEffect } from 'react'
 import * as Alarm from './Alarm.js';
@@ -97,7 +97,6 @@ export default function RecurringTask() {
                     alert(error);
                 })
         }
-        //setIdentifier([]);
       }, [identifier]);
 
       const checkDays = () => {
@@ -296,7 +295,6 @@ export default function RecurringTask() {
                         <Text style={styles.dayText}>Su</Text>
                     </TouchableOpacity>
                 </View>
-
             <TimePickerApp
                 setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
             />

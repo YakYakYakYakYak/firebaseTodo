@@ -12,7 +12,6 @@ const RecurringHome = () => {
     const [totalAccumulatedPoints, setTotalAccumulatedPoints] = useState([])
     const RecurringTaskRef = firebase.firestore().collection('recurringTasks');
     const accumulatedPointsRef = firebase.firestore().collection('accumulatedPoints');
-    const [userInput, setUserInput] = useState('');
     const navigation = useNavigation();
 
     // https://stackoverflow.com/questions/39426083/update-react-component-every-second
