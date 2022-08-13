@@ -107,7 +107,6 @@ const TasksComp = (props) => {
               setModalVisible(!modalVisible);
             }}
           >
-            <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style = {{fontWeight: 'bold', fontSize: 15, textDecorationLine:'underline', textAlign:'center'}}>{selectedDate}</Text>
               <Icon style={{
@@ -118,7 +117,6 @@ const TasksComp = (props) => {
                 <>{tasksComp}</>                  
                   
               </View>
-            </View>
           </Modal>
     </View>
   )
@@ -157,7 +155,7 @@ const TasksComp = (props) => {
       marginTop: 22
     },
     modalView: {
-      margin: 20,
+      margin: 40,
       backgroundColor: "white",
       borderRadius: 20,
       padding: 10,
