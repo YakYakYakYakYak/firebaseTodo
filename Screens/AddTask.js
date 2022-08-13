@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, Switch } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard } from 'react-native'
 import { firebase } from '../config';
 import React, { useState, useEffect } from 'react'
 import * as Alarm from './Alarm.js';
@@ -155,14 +155,17 @@ export default function AdHocTask() {
                 />
                 <TouchableOpacity style={styles.button} onPress={addTask}>
                     <Text style={styles.buttonText}>Add</Text>
-                </TouchableOpacity>
-                <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-                />
+                </TouchableOpacity>    
+            </View>
+            <View style={{alignItems:'center'}}>
+            <TouchableOpacity 
+                        style={isEnabled? styles.btnOn : styles.btnOff} 
+                        value = {isEnabled} 
+                        onPress={() => {
+                            toggleSwitch()
+                        }}>
+                        <Text style={styles.btnText}>Toggle to set notification.</Text>
+                    </TouchableOpacity>
             </View>
             {isEnabled == true ? <DateTimePickerApp
                 setScheduledNotificationDate={setScheduledNotificationDate}//send to DateTimePicker for user to pick schedule notification date.
@@ -199,5 +202,32 @@ const styles = StyleSheet.create({
     buttonText: {
         color:'white',
         fontSize:20
+    },
+    btnOn: {
+        width: 100,
+        height: 50,
+        backgroundColor:'#F29913',
+        borderRadius: 35,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        justifyContent: 'center',
+        marginLeft: 4,
+        marginRight:4
+    },
+    btnOff: {
+        width: 100,
+        height: 50,
+        borderRadius: 35,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        justifyContent: 'center',
+        marginLeft: 4,
+        marginRight:4
+    },
+    btnText: {
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
 })

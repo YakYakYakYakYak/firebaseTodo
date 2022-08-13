@@ -26,14 +26,6 @@ const MainStackNavigator = () => {
   const navigation = useNavigation();
     return (
         <Stack.Navigator 
-          // screenOptions={{
-          //   header: () => (
-          //     <Button
-          //       onPress={() => navigation.navigate('Ad-Hoc Tasks', {screen: 'HomePage'})}
-          //       title="Ad-Hoc Tasks"
-          //       color="#F29913"
-          //     />
-          //   ),}}
           screenOptions={{
             header: () => (
               <TouchableOpacity style ={styles.headerBtn} onPress={() => navigation.navigate('Ad-Hoc Tasks', {screen: 'HomePage'})}>
